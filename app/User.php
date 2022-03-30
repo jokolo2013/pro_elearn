@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'id_role','Fname', 'Lname','Gender','tel','email', 'password',
+        'id_role','Fname', 'Lname','Gender','tel','pic_profile','email', 'password',
     ];
 
     /**
@@ -27,6 +27,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function profile(){
+        return $this->hasOne(Profile::class,'id_role');
+    }
 
     /**
      * The attributes that should be cast to native types.

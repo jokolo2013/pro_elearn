@@ -26,7 +26,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title">Special title treatment</h4>
                                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ดูคอร์ส</a>
 
                                         </div>
 
@@ -38,7 +38,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title">Special title treatment</h4>
                                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ดูคอร์ส</a>
                                         </div>
                                     </div>
                                 </div>
@@ -48,7 +48,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title">Special title treatment</h4>
                                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ดูคอร์ส</a>
                                         </div>
                                     </div>
                                 </div>
@@ -65,7 +65,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title">Special title treatment</h4>
                                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ดูคอร์ส</a>
                                         </div>
 
                                     </div>
@@ -76,7 +76,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title">Special title treatment</h4>
                                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ดูคอร์ส</a>
                                         </div>
                                     </div>
                                 </div>
@@ -86,7 +86,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title">Special title treatment</h4>
                                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ดูคอร์ส</a>
                                         </div>
                                     </div>
                                 </div>
@@ -103,7 +103,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title">Special title treatment</h4>
                                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ดูคอร์ส</a>
                                         </div>
 
                                     </div>
@@ -114,7 +114,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title">Special title treatment</h4>
                                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ดูคอร์ส</a>
                                         </div>
                                     </div>
                                 </div>
@@ -124,7 +124,7 @@
                                         <div class="card-body">
                                             <h4 class="card-title">Special title treatment</h4>
                                             <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+                                            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ดูคอร์ส</a>
                                         </div>
                                     </div>
                                 </div>

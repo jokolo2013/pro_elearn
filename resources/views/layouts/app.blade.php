@@ -8,18 +8,31 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Elearn') }}</title>
 
     <!-- Scripts -->
+    {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> --}}
+
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/all.min.js') }}" defer></script>
+    <script src="{{ asset('js/popper.min.js') }}" defer></script>
+
+
+
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+    <script src="{{ asset('js/lity.min.js') }}" defer></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
+    {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/lity.min.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -45,11 +58,6 @@
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('index') }}">About Me</a>
-                            </li>
-
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">เข้าสู่ระบบ</a>
                             </li>
@@ -62,12 +70,23 @@
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->Fname}} {{ Auth::user()->Lname}}
+                                    {{ Auth::user()->Fname }} {{ Auth::user()->Lname }}
                                 </a>
 
+
+
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+                                    <a class="dropdown-item" href="{{ url('profile/') }}">
+                                        โปรไฟล์
+                                    </a>
+
+                                    <a class="dropdown-item" href="{{ url('admins') }}">
+                                        เข้าสู่หน้าผู้ดูแลระบบ
+                                    </a>
+
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                             document.getElementById('logout-form').submit();">
+                                                                     document.getElementById('logout-form').submit();">
                                         ออกจากระบบ
                                     </a>
 
@@ -77,6 +96,10 @@
                                     </form>
                                 </div>
                             </li>
+                            <a href="{{ asset('images/' . Auth::user()->pic_profile) }}" data-lity>
+                                <img src="{{ asset('images/resize/' . Auth::user()->pic_profile) }}"
+                                    class="rounded" width="50px" alt="pic_profile">
+                            </a>
                         @endguest
                     </ul>
                 </div>

@@ -6,7 +6,7 @@
             <h4 class="card-title">ชื่อคอร์ส</h4>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                 card's content.</p>
-            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+            <a class="btn text-white w-100" style="background-color: #F77100" href="{{url('/courses-page')}}">ดูคอร์ส</a>
         </div>
     </div>
 </div>
@@ -19,7 +19,7 @@
             <h4 class="card-title">ชื่อคอร์ส</h4>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                 card's content.</p>
-            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+            <a class="btn text-white w-100" style="background-color: #F77100" href="{{url('/courses-page')}}">ดูคอร์ส</a>
         </div>
     </div>
 </div>
@@ -32,7 +32,7 @@
             <h4 class="card-title">ชื่อคอร์ส</h4>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
                 card's content.</p>
-            <a class="btn text-white w-100" style="background-color: #F77100" href="#">ลงทะเบียน</a>
+            <a class="btn text-white w-100" style="background-color: #F77100" href="{{url('/courses-page')}}">ดูคอร์ส</a>
         </div>
     </div>
 </div>

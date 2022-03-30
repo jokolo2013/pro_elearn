@@ -18,9 +18,15 @@ Route::get('/', function () {
     return view('index');
 });
 
-
 Route::get('index','SiteController@index')->name('index');
+Route::get('/courses-page', function () {
+    return view('courses-page');
+});
 
 Auth::routes();
+Route::resource('profile','ProfileController')->name('index','profile');
+Route::resource('editusers','AdminsUsersController')->name('index','editusers');
+
+Route::get('admins','AdminPageController@index')->name('index');
 
 Route::get('/home', 'HomeController@index')->name('home');
