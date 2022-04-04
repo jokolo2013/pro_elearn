@@ -14,11 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
-
-Route::get('index','SiteController@index')->name('index');
+Route::get('/','SiteController@index')->name('index');
+Route::get('/index','SiteController@index')->name('index');
 Route::get('/courses-page', function () {
     return view('courses-page');
 });

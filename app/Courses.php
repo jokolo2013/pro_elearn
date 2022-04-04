@@ -1,0 +1,16 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Courses extends Model
+{
+    protected $table = 'courses';
+    protected $fillable = ['id', 'id_users', 'course_type_id', 'course_name', 'course_images', 'course_videos', 'course_detail', 'course_difficulty', 'course_times', 'course_will_learn', 'course_objective', 'viewer', 'publish', 'created_at', 'updated_at'];
+
+    public function Courses_type() {
+        return $this->belongsTo(Courses_type::class, 'course_type_id'); //กําหนด FK ด้วย
+        }
+}
+

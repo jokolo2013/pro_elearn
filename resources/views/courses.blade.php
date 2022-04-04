@@ -1,38 +1,22 @@
-<div class="col-md-4 mt-5 mb-5" style="float:left">
-    <div class="card mb-2 shadow-sm">
-        <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
-            alt="Card image cap">
-        <div class="card-body">
-            <h4 class="card-title">ชื่อคอร์ส</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-            <a class="btn text-white w-100" style="background-color: #F77100" href="{{url('/courses-page')}}">ดูคอร์ส</a>
+<div class="card-group">
+    @foreach ($courses as $course)
+        <div class="col-sm-4 py-2 mt-3 mb-3">
+            <div class="card h-100">
+                <a href="{{ asset('images/course/cover/' . $course->course_images) }}" data-lity>
+                    <img class="card-img-top" src="{{ asset('images/course/cover/' . $course->course_images) }}"
+                        alt="<?= $course->course_name ?>">
+                </a>
+                <div class="card-body">
+                    <h4 class="card-title"><?= $course->course_name ?></h4>
+                    <p class="card-text"><?= $course->course_detail ?></p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn text-white w-100" style="background-color: #F77100"
+                    href="{{ url('/courses-page') }}">ดูคอร์ส</a>
+                </div>
+            </div>
         </div>
-    </div>
+    @endforeach
 </div>
+{{ $courses->links() }}
 
-<div class="col-md-4 mt-5 mb-5" style="float:left">
-    <div class="card mb-2 shadow-sm">
-        <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
-            alt="Card image cap">
-        <div class="card-body">
-            <h4 class="card-title">ชื่อคอร์ส</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-            <a class="btn text-white w-100" style="background-color: #F77100" href="{{url('/courses-page')}}">ดูคอร์ส</a>
-        </div>
-    </div>
-</div>
-
-<div class="col-md-4 mt-5 mb-5" style="float:left">
-    <div class="card mb-2 shadow-sm">
-        <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Horizontal/City/4-col/img%20(60).jpg"
-            alt="Card image cap">
-        <div class="card-body">
-            <h4 class="card-title">ชื่อคอร์ส</h4>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                card's content.</p>
-            <a class="btn text-white w-100" style="background-color: #F77100" href="{{url('/courses-page')}}">ดูคอร์ส</a>
-        </div>
-    </div>
-</div>
