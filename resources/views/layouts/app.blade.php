@@ -11,17 +11,14 @@
     <title>{{ config('app.name', 'Elearn') }}</title>
 
     <!-- Scripts -->
-    {{-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script> --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" ></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
 
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
     <script src="{{ asset('js/all.min.js') }}" defer></script>
-    <script src="{{ asset('js/popper.min.js') }}" defer></script>
-
-
+    {{-- <script src="{{ asset('js/popper.min.js') }}" defer></script> --}}
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    {{-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
     <script src="{{ asset('js/lity.min.js') }}" defer></script>
 
 
@@ -33,6 +30,7 @@
     {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/lity.min.css') }}" rel="stylesheet">
+        @yield('style')
 </head>
 
 <body>
@@ -111,7 +109,7 @@
         </main>
     </div>
 
-    @yield('footer');
+    @yield('footer')
 </body>
 
 </html>

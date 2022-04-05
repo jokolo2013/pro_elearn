@@ -7,12 +7,16 @@
                         alt="<?= $course->course_name ?>">
                 </a>
                 <div class="card-body">
-                    <h4 class="card-title"><?= $course->course_name ?></h4>
+                    <h4 class="card-title">
+                        <?= $course->course_name ?> #<?=$course->courses_type->courses_type_name?>
+                    </h4>
+                    <hr>
                     <p class="card-text"><?= $course->course_detail ?></p>
+                    <i class="far fa-clock"></i> <?= $course->course_times ?> ชั่วโมง
                 </div>
                 <div class="card-footer">
                     <a class="btn text-white w-100" style="background-color: #F77100"
-                    href="{{ url('/courses-page') }}">ดูคอร์ส</a>
+                    href="{{ url("/courses-page/".$course->id."/")}}">ดูคอร์ส</a>
                 </div>
             </div>
         </div>

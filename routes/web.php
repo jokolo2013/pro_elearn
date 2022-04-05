@@ -16,9 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/','SiteController@index')->name('index');
 Route::get('/index','SiteController@index')->name('index');
-Route::get('/courses-page', function () {
-    return view('courses-page');
-});
+
+Route::get('courses-page/{id}','SiteController@courses_page')->name('index','courses_page');
 
 Auth::routes();
 Route::resource('profile','ProfileController')->name('index','profile');
