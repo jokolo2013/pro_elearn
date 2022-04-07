@@ -24,6 +24,7 @@ Route::resource('profile','ProfileController')->name('index','profile');
 
 Route::resource('editusers','AdminsUsersController')->name('index','editusers');
 Route::resource('coursemanage','CoursemanageController')->name('index','coursemanage');
+Route::resource('lessonsmanage','LessonsController')->name('index','lessonsmanage');
 
-Route::get('admins','AdminPageController@index')->name('index');
+Route::get('admins','AdminPageController@index')->name('admins');
 Route::get('/home', 'HomeController@index')->name('home');

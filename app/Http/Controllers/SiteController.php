@@ -15,8 +15,8 @@ class SiteController extends Controller
     public function index()
     {
 
-        // $courses = Courses::with('courses_type')->where('publish','=','1')->orderBy('created_at', 'desc')->paginate(9); // จำกัดเปิดดูเฉพาะคอร์สที่เปิด
-        $courses = Courses::with('courses_type')->orderBy('created_at', 'desc')->paginate(9);
+        $courses = Courses::with('courses_type')->where('publish','=','1')->orderBy('created_at', 'desc')->paginate(9); // จำกัดเปิดดูเฉพาะคอร์สที่เปิด
+        // $courses = Courses::with('courses_type')->orderBy('created_at', 'desc')->paginate(9);
         $lesson = Lessons::all();
         // foreach($courses as $course){
         //     echo

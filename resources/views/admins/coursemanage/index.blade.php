@@ -99,28 +99,24 @@
                             <div class="col-8">แสดงข้อมูลคอร์สเรียน จํานวนทั้งหมด {{ $courses->total() }}
                                 คอร์สเรียน
                             </div>
-                            <div class="col-4">
-                                <div class="form-inline w-100">
-                                    <div id="example1_filter" class="dataTables_filter"><label>ค้นหา: <input type="search"
-                                                class="form-control form-control-sm ml-2 w-100" placeholder=""
-                                                aria-controls="example1"></label></div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="card-body table-responsive p-0">
-                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline text-center"
-                            aria-describedby="example1_info">
+                        <table class="table table-bordered table-striped text-center" id="example1">
+                            <thead>
                             <tr>
                                 <th>#</th>
                                 <th>ปกคอร์ส</th>
                                 <th>ชื่อคอร์ส</th>
                                 <th>หมวดคอร์ส</th>
                                 <th>ผู้สร้างคอร์ส</th>
+                                <th>สถานะการเผยแพร่</th>
                                 <th>แก้ไขคอร์ส</th>
-                                <th>แก้ไขบทเรียน</th>
+                                <th>จัดการบทเรียน</th>
                                 <th>ลบ</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             <?php $i = 0; ?>
                             @foreach ($courses as $course)
                                 <?php $i++; ?>
@@ -134,7 +130,7 @@
                                         </a>
                                     </td>
                                     <td>{{ $course->course_name }}</td>
-                                    <td># {{ $course->courses_type->courses_type_name }}</td>
+                                    <td>{{ $course->courses_type->courses_type_name }}</td>
                                     <td>
                                         @foreach ($userProfile as $user)
                                             <?php
@@ -143,6 +139,10 @@
                                             }
                                             ?>
                                         @endforeach
+                                    </td>
+                                    <td>
+                                        <?php if($course->publish == 0) echo '<i class="fas fa-circle" style="color:red"></i> ยังไม่เผยแพร่';?>
+                                        <?php if($course->publish == 1) echo '<i class="fas fa-circle" style="color:green"></i> เผยแพร่แล้ว' ;?>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-dark" data-toggle="modal"
@@ -182,6 +182,27 @@
                                                             <?= Form::select('course_type_id', App\Courses_type::all()->pluck('courses_type_name', 'id'), null, ['class' => 'form-control', 'placeholder' => 'เลือกหมวดคอร์ส']) ?>
                                                         </div>
                                                         <?php
+                                                        $c1 = '';
+                                                        $c2 = '';
+                                                        if ($course->publish == 0) {
+                                                            $c1 = 'checked';
+                                                        }
+                                                        if ($course->publish == 1) {
+                                                            $c2 = 'checked';
+                                                        }
+                                                        ?>
+                                                        <div class="form-group">
+                                                            <label for="publish">ความยากของคอร์สเรียน</label>
+                                                            <div class="col-md-6 mt-2">
+                                                                <input type="radio" id="publish_0"
+                                                                    name="publish" value="0" <?= $c1 ?>>
+                                                                <label for="html">ไม่เผยแพร่</label>
+                                                                <input type="radio" id="publish_1"
+                                                                    name="publish" value="1" <?= $c2 ?>>
+                                                                <label for="html">เผยแพร่</label>
+                                                            </div>
+                                                        </div>
+                                                        <?php
                                                         $se1 = '';
                                                         $se2 = '';
                                                         $se3 = '';
@@ -196,7 +217,7 @@
                                                         }
                                                         ?>
                                                         <div class="form-group">
-                                                            <label for="course_difficulty">ความยากของคอร์สเรียน</label>
+                                                            <label for="course_difficulty">เผยแพร่คอร์สเรียน</label>
                                                             <div class="col-md-6 mt-2">
                                                                 <input type="radio" id="course_difficulty_0"
                                                                     name="course_difficulty" value="0" <?= $se1 ?>>
@@ -244,13 +265,13 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-secondary" data-toggle="modal"
-                                            data-target="#editcourse<?= $i ?>"><i class="fas fa-edit"></i> แก้ไขบทเรียนในคอร์ส</button>
+                                        {{-- <?= link_to('lessonsmanage/' . $course->id .'/edit',"จัดการบทเรียน", ['class' => 'btn btn-secondary'], $secure = null) ?> --}}
+                                        <a name="" id="" class="btn btn-secondary" href="lessonsmanage/<?=$course->id?>/edit"><i class="fas fa-edit"></i> จัดการบทเรียน</a>
                                     </td>
                                     <td>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#delete<?= $i ?>"><i class="fas fa-trash-alt"></i> ลบ
+                                            data-target="#delete<?= $i?>"><i class="fas fa-trash-alt"></i> ลบ
                                         </button>
                                         <!-- Modal -->
                                         <div class="modal fade" id="delete<?= $i ?>" tabindex="-1" role="dialog"
@@ -281,9 +302,10 @@
                                     </td>
                                 </tr>
                             @endforeach
+                        </tbody>
                         </table>
                         <br>
-                        {{ $courses->links() }}
+                        {{-- {{ $courses->links() }} --}}
                     </div>
                 </div>
             </div>

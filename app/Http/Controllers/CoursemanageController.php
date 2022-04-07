@@ -112,6 +112,7 @@ class CoursemanageController extends Controller
         }else{
         $course->course_videos = $request->course_videos;
         }
+        $course->publish = $request->publish;
         $course->course_detail = $request->course_detail;
         $course->course_difficulty = $request->course_difficulty;
         $course->course_times = $request->course_times;

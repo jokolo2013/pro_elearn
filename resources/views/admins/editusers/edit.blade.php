@@ -10,7 +10,7 @@
         </div><!-- /.col -->
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="{{url('admins/')}}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{route('admins')}}">Home</a></li>
             <li class="breadcrumb-item active">แก้ไขข้อมูลสมาชิก</li>
           </ol>
         </div><!-- /.col -->

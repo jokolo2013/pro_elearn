@@ -10,7 +10,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{url('admins/')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{url('admins')}}">Home</a></li>
                         <li class="breadcrumb-item active">จัดการผู้ใช้งาน</li>
                     </ol>
                 </div><!-- /.col -->
@@ -21,30 +21,23 @@
     <div class="container-fluid">
 
         <div class="row" style="background-color:#FFFFFF">
-            <div class="col-2"></div>
-            <div class="col-8">
+            <div class="col-1"></div>
+            <div class="col-10">
                 <br>
                 <?= link_to('editusers/create', $title = ' + เพิ่มผู้ใช้งาน', ['class' => 'btn btn-primary'], $secure = null) ?>
 
                 <div class="card mt-3">
                     <div class="card-header h3 text-dark">
                         <div class="row">
-                            <div class="col-8">แสดงข้อมูลผู้ใช้งาน จํานวนทั้งหมด {{ $users->total() }} คน </div>
-                            <div class="col-4">
-                                <div class="form-inline w-100">
-                                    <div id="example1_filter" class="dataTables_filter"><label>Search: <input type="search"
-                                                class="form-control form-control-sm ml-2 w-100" placeholder=""
-                                                aria-controls="example1"></label></div>
-                                </div>
+                            <div class="col-8">แสดงข้อมูลผู้ใช้งาน จํานวนทั้งหมด {{ $users->total() }} คน
                             </div>
                         </div>
                     </div>
                     <div class="card-body table-responsive p-0">
-                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline text-center" aria-describedby="example1_info">
+                        <table class="table table-bordered table-striped w-100 text-center" id="example1">
+                            <thead>
                             <tr>
-                                <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
-                                    colspan="1" aria-sort="ascending"
-                                    aria-label="Rendering engine: activate to sort column descending">#</th>
+                                <th>#</th>
                                 <th>รหัสสมาชิก</th>
                                 <th>ชื่อ</th>
                                 <th>นามสกุล</th>
@@ -56,6 +49,8 @@
                                 <th>แก้ไข</th>
                                 <th>ลบ</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             <?php $i = 0; ?>
                             @foreach ($users as $user)
                                 <?php $i++; ?>
@@ -124,13 +119,14 @@
                                     </td>
                                 </tr>
                             @endforeach
+                        </tbody>
                         </table>
                         <br>
-                        {{ $users->links() }}
+                        {{-- {{ $users->links() }} --}}
                     </div>
                 </div>
             </div>
-            <div class="col-2"></div>
+            <div class="col-1"></div>
         </div>
 
     </div>
