@@ -1,11 +1,11 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    {{-- <a href="index3.html" class="brand-link">
         <img src="{{ asset('adminLTE/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
-    </a>
+    </a> --}}
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -16,7 +16,8 @@
                     alt="User Image">
             </div>
             <div class="info">
-                <a href="{{ route('profile') }}" class="d-block">{{ Auth::user()->Fname }} {{ Auth::user()->Lname }}</a>
+                <a href="{{ route('profile') }}" class="d-block">{{ Auth::user()->Fname }}
+                    {{ Auth::user()->Lname }}</a>
             </div>
         </div>
 
@@ -37,37 +38,31 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-
                 <li class="nav-item">
-                    <a href="{{ route('editusers') }}" class="nav-link <?=Request::segment(1) == 'editusers' || Request::segment(1) == '' ? 'active' : ''?>">
-                      <i class=" fa fa-user nav-icon"></i>
-                      <p>จัดการผู้ใช้งาน</p>
+                    <a href="{{ url('/admins') }}"
+                        class="nav-link <?= Request::segment(1) == 'admins' || Request::segment(1) == '' ? 'active' : '' ?>">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Dashboard</p>
                     </a>
-                  </li>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('editusers') }}"
+                        class="nav-link <?= Request::segment(1) == 'editusers' || Request::segment(1) == '' ? 'active' : '' ?>">
+                        <i class=" fa fa-user nav-icon"></i>
+                        <p>จัดการผู้ใช้งาน</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('coursemanage') }}"
+                        class="nav-link <?= Request::segment(1) == 'coursemanage' || Request::segment(1) == '' ? 'active' : '' ?>">
+                        <i class="fas fa-book nav-icon"></i>
+                        <p>จัดการคอร์สเรียน</p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- Sidebar Menu -->
 
-    <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-circle nav-icon"></i>
-                    <p>Level 1</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="fas fa-circle nav-icon"></i>
-                    <p>Level 1</p>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <!-- /.sidebar-menu -->
-        <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
 </aside>

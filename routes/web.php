@@ -21,8 +21,9 @@ Route::get('courses-page/{id}','SiteController@courses_page')->name('index','cou
 
 Auth::routes();
 Route::resource('profile','ProfileController')->name('index','profile');
+
 Route::resource('editusers','AdminsUsersController')->name('index','editusers');
+Route::resource('coursemanage','CoursemanageController')->name('index','coursemanage');
 
 Route::get('admins','AdminPageController@index')->name('index');
-
 Route::get('/home', 'HomeController@index')->name('home');

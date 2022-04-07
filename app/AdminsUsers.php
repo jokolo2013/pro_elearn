@@ -15,4 +15,9 @@ class AdminsUsers extends Model
         return $this->belongsTo(Profile::class,'id_role');
     }
 
+    public function Courses(){
+        return $this->hasMany(Courses::class,'id');
+    }
+
+
 }

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" style="margin-bottom:20%">
-
+        {{-- <h4><a href="{{url('/')}}" class="stretched-link text-orange">Home </a>/ <?=$courses_page->course_name?></h4> --}}
         <div class="row mt-5">
             <div class="col-lg-8">
                 <iframe width="100%" height="400" src="<?= $courses_page->course_videos ?>" title="YouTube video player"
@@ -29,7 +29,7 @@
                         </p>
                         <hr>
                         <p class="card-text">
-                            จำนวนบทเรียน 10 บทเรียน <br> <i class="far fa-clock"></i> <?= $courses_page->course_times ?>
+                            <i class="fas fa-book"></i> บทเรียนจำนวน  <?= $lessonCount ?> บทเรียน <br> <i class="far fa-clock"></i> <?= $courses_page->course_times ?>
                             ชั่วโมง
                         </p>
                     </div>
@@ -49,7 +49,7 @@
                         <h3 class="card-title"><u>รายละเอียด</u></h3>
                         <table style="margin-left:30%">
                             <tr>
-                                <td><i class="fas fa-book fa-2x" style="color:#F77100"></i> <?= $lessonCount ?> บทเรียน
+                                <td><i class="fas fa-book fa-2x"></i> <?= $lessonCount ?> บทเรียน
                                 </td>
                                 <td><i class="far fa-clock fa-2x ml-5" style="color:#F77100"></i>
                                     <?= $courses_page->course_times ?> ชั่วโมง</td>
@@ -123,26 +123,36 @@
                                             <div class="card-body">
 
                                                 <h4><b><u><i class="fa-solid fa-circle-play"></i> Video </u></b></h4>
-                                                @foreach ($lessonVideo as $lesVideo)
-                                                <?php if($lesVideo->id == $ls->id){?>
-                                                    <ol>
+                                                <ol>
+                                                    @foreach ($lessonVideo as $lesVideo)
+                                                        <?php if($lesVideo->lessons_id == $ls->id){?>
+
                                                         <li>
                                                             <p><button type="button" class="btn"
-                                                                    style="background-color:#F77100" data-toggle="modal"
+                                                                    style="background-color:#F77100;color:white" data-toggle="modal"
                                                                     data-target="#videoModal<?= $i ?>"
                                                                     data-video="<?= $lesVideo->lesson_video_path ?>"><i
                                                                         class="fab fa-youtube text-white"></i>
                                                                     <?= $lesVideo->lesson_video_name ?></button></p>
                                                         </li>
-                                                    </ol>
-                                                <?php } ?>
-                                                @endforeach
+
+                                                        <?php }else{
+
+                                                } ?>
+                                                    @endforeach
+                                                </ol>
                                                 <hr>
                                                 <h4><b><u><i class="fa-solid fa-file"></i> File </u></b></h4>
                                                 <ol>
-                                                    <li>
-                                                        Test
-                                                    </li>
+                                                    @foreach ($lessonFile as $lesFile)
+                                                        <?php if($lesFile->lessons_id == $ls->id){?>
+                                                        <li>
+                                                            <a class="btn btn-primary" href="{{ asset("files/course/$lesFile->lesson_files_path") }}" target="_blank" role="button"><i class="fa-solid fa-file"></i> <?=$lesFile->lesson_files_name?></a>
+                                                        </li>
+                                                        <?php }else{
+
+                                                    } ?>
+                                                    @endforeach
                                                 </ol>
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="videoModal<?= $i ?>" tabindex="-1"

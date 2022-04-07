@@ -27,4 +27,9 @@ class Courses extends Model
     {
         return $this->hasMany(Lesson_video::class); //กําหนด FK ด้วย
     }
+
+    public function AdminsUsers(){
+        return $this->belongsTo(AdminsUsers::class,'id_users');
+    }
+
 }

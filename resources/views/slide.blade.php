@@ -25,11 +25,21 @@
                                     </h4>
                                     <hr>
                                     <p class="card-text"><?= $sl->course_detail ?></p>
+                                    <i class="fas fa-book"></i>
+                                    <?php $i = 0; ?>
+                                    บทเรียนจำนวน @foreach ($lesson as $less)
+                                        <?php
+                                        if ($less->id_course == $sl->id) {
+                                            $i++;
+                                        } ?>
+                                    @endforeach
+                                    <?php echo $i; ?>
+                                    บทเรียน
                                     <i class="far fa-clock"></i> <?= $sl->course_times ?> ชั่วโมง
                                 </div>
                                 <div class="card-footer">
                                     <a class="btn text-white w-100" style="background-color: #F77100"
-                                    href="{{ url("/courses-page/".$sl->id."/")}}">ดูคอร์ส</a>
+                                        href="{{ url('/courses-page/' . $sl->id . '/') }}">ดูคอร์ส</a>
                                 </div>
                             </div>
                         </div>

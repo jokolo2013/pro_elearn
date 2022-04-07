@@ -1,23 +1,23 @@
 @extends('admins.layouts.app')
 
 @section('content')
- <!-- Content Header (Page header) -->
- <div class="content-header">
-    <div class="container-fluid">
-      <div class="row mb-2">
-        <div class="col-sm-6">
-          <h1 class="m-0">จัดการผู้ใช้งาน</h1>
-        </div><!-- /.col -->
-        <div class="col-sm-6">
-          <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">จัดการผู้ใช้งาน</li>
-          </ol>
-        </div><!-- /.col -->
-      </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
-  </div>
-  <!-- /.content-header -->
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">จัดการผู้ใช้งาน</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="{{url('admins/')}}">Home</a></li>
+                        <li class="breadcrumb-item active">จัดการผู้ใช้งาน</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
     <div class="container-fluid">
 
         <div class="row" style="background-color:#FFFFFF">
@@ -28,12 +28,23 @@
 
                 <div class="card mt-3">
                     <div class="card-header h3 text-dark">
-                        แสดงข้อมูลผู้ใช้งาน จํานวนทั้งหมด {{ $users->total() }} คน
+                        <div class="row">
+                            <div class="col-8">แสดงข้อมูลผู้ใช้งาน จํานวนทั้งหมด {{ $users->total() }} คน </div>
+                            <div class="col-4">
+                                <div class="form-inline w-100">
+                                    <div id="example1_filter" class="dataTables_filter"><label>Search: <input type="search"
+                                                class="form-control form-control-sm ml-2 w-100" placeholder=""
+                                                aria-controls="example1"></label></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body table-responsive p-0">
-                        <table class="table table-hover text-nowrap">
+                        <table id="example1" class="table table-bordered table-striped dataTable dtr-inline text-center" aria-describedby="example1_info">
                             <tr>
-                                <th>#</th>
+                                <th class="sorting sorting_asc" tabindex="0" aria-controls="example1" rowspan="1"
+                                    colspan="1" aria-sort="ascending"
+                                    aria-label="Rendering engine: activate to sort column descending">#</th>
                                 <th>รหัสสมาชิก</th>
                                 <th>ชื่อ</th>
                                 <th>นามสกุล</th>
@@ -81,11 +92,11 @@
                                     <td>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                                            data-target="#exampleModal<?=$i?>">
+                                            data-target="#exampleModal<?= $i ?>">
                                             ลบ
                                         </button>
                                         <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal<?=$i?>" tabindex="-1" role="dialog"
+                                        <div class="modal fade" id="exampleModal<?= $i ?>" tabindex="-1" role="dialog"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">

@@ -18,8 +18,7 @@ class Lessons extends Model
         return $this->hasMany(Lesson_video::class); //กําหนด FK ด้วย
     }
 
-    public function Courses()
-    {
-        return $this->hasMany(Courses::class);
+    public function Courses(){
+        return $this->hasMany(Courses::class,'id_course');
     }
 }

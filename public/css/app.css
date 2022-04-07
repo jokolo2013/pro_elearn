@@ -9869,6 +9869,10 @@ button.bg-dark:focus {
   color: #fff !important;
 }
 
+.text-orange{
+    color: rgba(247, 113, 0, 0.9) !important;
+}
+
 .text-primary {
   color: #3490dc !important;
 }

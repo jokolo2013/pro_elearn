@@ -14,8 +14,21 @@ class SiteController extends Controller
 {
     public function index()
     {
+
+        // $courses = Courses::with('courses_type')->where('publish','=','1')->orderBy('created_at', 'desc')->paginate(9); // จำกัดเปิดดูเฉพาะคอร์สที่เปิด
         $courses = Courses::with('courses_type')->orderBy('created_at', 'desc')->paginate(9);
-        return view('index', ['courses' =>  $courses]);
+        $lesson = Lessons::all();
+        // foreach($courses as $course){
+        //     echo
+        //     $lesson = DB::table('lessons')
+        //     ->join('courses', 'lessons.id_course', '=', 'courses.id')
+        //     ->where('lessons.id_course', '=', $course->id)
+        //     ->select('lessons.*')
+        //     ->get();
+        // }
+        // $lessonCount = $lesson->count();
+        return view('index', ['courses' =>  $courses, 'lesson' => $lesson]);
+        //  return  $courses;
     }
 
     public function courses_page($id)
@@ -35,13 +48,13 @@ class SiteController extends Controller
                 ->join('lesson_files', 'lessons.id', '=', 'lesson_files.lessons_id')
                 ->where('lessons.id_course', '=', $id)
                 ->orWhere('lessons.id', '=', $les->id)
-                ->select('lesson_files.lesson_files_name', 'lesson_files.lesson_files_path')
+                ->select('lesson_files.*',)
                 ->get();
             $lessonVideo = DB::table('lessons')
                 ->join('lesson_video', 'lessons.id', '=', 'lesson_video.lessons_id')
                 ->where('lessons.id_course', '=', $id)
                 ->orWhere('lessons.id', '=', $les->id)
-                ->select('lesson_video.lesson_video_name', 'lesson_video.lesson_video_path')
+                ->select('lesson_video.*')
                 ->get();
         }
         return view(
