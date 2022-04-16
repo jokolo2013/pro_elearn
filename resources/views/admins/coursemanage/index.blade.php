@@ -111,8 +111,9 @@
                                 <th>หมวดคอร์ส</th>
                                 <th>ผู้สร้างคอร์ส</th>
                                 <th>สถานะการเผยแพร่</th>
-                                <th>แก้ไขคอร์ส</th>
+                                <th>จัดการผู้ลงทะเบียน</th>
                                 <th>จัดการบทเรียน</th>
+                                <th>แก้ไขคอร์ส</th>
                                 <th>ลบ</th>
                             </tr>
                             </thead>
@@ -143,6 +144,11 @@
                                     <td>
                                         <?php if($course->publish == 0) echo '<i class="fas fa-circle" style="color:red"></i> ยังไม่เผยแพร่';?>
                                         <?php if($course->publish == 1) echo '<i class="fas fa-circle" style="color:green"></i> เผยแพร่แล้ว' ;?>
+                                    </td>
+                                    <td><a class="btn btn-warning" href="Register_coursesManage/<?=$course->id?>/edit" role="button"><i class="fas fa-edit"></i> จัดการผู้ลงทะเบียน</a></td>
+                                    <td>
+                                        {{-- <?= link_to('lessonsmanage/' . $course->id .'/edit',"จัดการบทเรียน", ['class' => 'btn btn-secondary'], $secure = null) ?> --}}
+                                        <a  class="btn btn-secondary" href="lessonsmanage/<?=$course->id?>/edit"><i class="fas fa-edit"></i> จัดการบทเรียน</a>
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-dark" data-toggle="modal"
@@ -265,10 +271,6 @@
                                         </div>
                                     </td>
                                     <td>
-                                        {{-- <?= link_to('lessonsmanage/' . $course->id .'/edit',"จัดการบทเรียน", ['class' => 'btn btn-secondary'], $secure = null) ?> --}}
-                                        <a name="" id="" class="btn btn-secondary" href="lessonsmanage/<?=$course->id?>/edit"><i class="fas fa-edit"></i> จัดการบทเรียน</a>
-                                    </td>
-                                    <td>
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-danger" data-toggle="modal"
                                             data-target="#delete<?= $i?>"><i class="fas fa-trash-alt"></i> ลบ
@@ -286,7 +288,7 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        ต้องการลบข้อมูลผู้ใช้งาน
+                                                        ต้องการลบข้อมูลคอร์ส {{$course->course_name}}
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"

@@ -54,7 +54,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('coursemanage') }}"
-                        class="nav-link <?= Request::segment(1) == 'coursemanage' || Request::segment(1) == '' ? 'active' : '' ?> <?= Request::segment(1) == 'lessonsmanage' || Request::segment(1) == '' ? 'active' : '' ?>">
+                        class="nav-link <?= Request::segment(1) == 'coursemanage' || Request::segment(1) == '' ? 'active' : '' ?> <?= Request::segment(1) == 'lessonsmanage' || Request::segment(1) == '' ? 'active' : '' ?> <?= Request::segment(1) == 'lessonsfilevideo' || Request::segment(1) == '' ? 'active' : '' ?>">
                         <i class="fas fa-book nav-icon"></i>
                         <p>จัดการคอร์สเรียน</p>
                     </a>

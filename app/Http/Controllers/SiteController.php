@@ -7,8 +7,12 @@ use App\Courses_type;
 use App\Lesson_files;
 use App\Lesson_video;
 use App\Lessons;
+use App\Register_courses;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
+use function PHPUnit\Framework\isEmpty;
 
 class SiteController extends Controller
 {
@@ -33,6 +37,10 @@ class SiteController extends Controller
 
     public function courses_page($id)
     {
+        $register_course = null;
+        if(Auth::user()){
+        $register_course = Register_courses::where('id_course' , '=' ,$id)->where('id_users' , '=' , Auth::user()->id)->first();
+        }
         $lessonFile = null;
         $lessonVideo = null;
         $courses_page = Courses::find($id);
@@ -40,6 +48,7 @@ class SiteController extends Controller
         $lesson = DB::table('courses')
             ->join('lessons', 'courses.id', '=', 'lessons.id_course')
             ->where('courses.id', '=', $id)
+            ->orderBy('lesson_sort', 'asc')
             ->select('lessons.*')
             ->get();
         $lessonCount = $lesson->count();
@@ -66,8 +75,19 @@ class SiteController extends Controller
                 'lessonCount' => $lessonCount,
                 'lessonFile' =>  $lessonFile,
                 'lessonVideo' => $lessonVideo,
+                'register_course' => $register_course,
             ]
         );
+    }
+
+    public function registercourses(Request $request)
+    {
+            $register_courses = new Register_courses();
+            $register_courses->id_course = $request->id_course;
+            $register_courses->id_users = $request->id_users;
+            $register_courses->save();
+
+        return redirect()->back();
     }
 
     public function login()

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <div class="container" style="margin-bottom:20%">
-        {{-- <h4><a href="{{url('/')}}" class="stretched-link text-orange">Home </a>/ <?=$courses_page->course_name?></h4> --}}
+        {{-- <h4><a href="{{url('/')}}" class="stretched-link text-orange">Home </a>/ <?= $courses_page->course_name ?></h4> --}}
         <div class="row mt-5">
             <div class="col-lg-8">
                 <iframe width="100%" height="400" src="<?= $courses_page->course_videos ?>" title="YouTube video player"
@@ -29,14 +29,33 @@
                         </p>
                         <hr>
                         <p class="card-text">
-                            <i class="fas fa-book"></i> บทเรียนจำนวน  <?= $lessonCount ?> บทเรียน <br> <i class="far fa-clock"></i> <?= $courses_page->course_times ?>
+                            <i class="fas fa-book"></i> บทเรียนจำนวน <?= $lessonCount ?> บทเรียน <br> <i
+                                class="far fa-clock"></i> <?= $courses_page->course_times ?>
                             ชั่วโมง
                         </p>
                     </div>
+                    <?php if($register_course == null){?>
+                    <?php if(Auth::user()){?>
+                    <?= Form::open(['url' => 'courses-page/', 'files' => false]) ?>
+                    <input type="hidden" id="id_course" name="id_course" value="<?php echo $courses_page->id; ?>">
+                    <input type="hidden" id="id_users" name="id_users" value="{{ Auth::user()->id }}">
                     <div class="card-footer">
-                        <button type="button" class="btn text-white w-100"
+                        <button type="submit" class="btn text-white w-100"
                             style="background-color:#F77100">ลงทะเบียน</button>
                     </div>
+                    {!! Form::close() !!}
+                    <?php }else{ ?>
+                    <div class="card-footer">
+                        <a href="{{ route('login') }}" class="btn text-white w-100"
+                            style="background-color:#F77100">กรุณาเข้าสู่ระบบก่อนลงทะเบียน</a>
+                    </div>
+                    <?php } ?>
+                    <?php }else{ ?>
+                    <div class="card-footer">
+                        <button type="button" class="btn text-white w-100" style="background-color:#3a3a3a"> <i
+                                class="fas fa-check"></i> ลงทะเบียนแล้ว</button>
+                    </div>
+                    <?php } ?>
                 </div>
             </div>
 
@@ -92,7 +111,8 @@
             </div>
             <div class="col-lg-4"></div>
         </div>
-
+        <?php if($register_course == null){
+        ?>
         <div class="row mt-5">
             <div class="col-lg-8">
                 <div class="card" style="border: none;">
@@ -106,7 +126,7 @@
                             } ?>
                             @foreach ($lesson as $ls)
                                 <div class="accordion" id="accordionExample">
-                                    <div class="card">
+                                    <div class="card" style="background-color: #949494">
                                         <div class="card-header" id="headingOne">
                                             <h2 class="mb-0">
                                                 <button class="btn btn-link btn-block text-left text-dark" type="button"
@@ -114,6 +134,7 @@
                                                     aria-expanded="true" aria-controls="collapseOne<?= $i ?>">
                                                     <i class="fas fa-arrow-right" style="color:#F77100"></i>
                                                     <b><?= $ls->lesson_name ?></b>
+                                                    (เนื้อหาถูกล็อคเนื่องจากยังไม่ได้ลงทะเบียนคอร์ส)
                                                 </button>
                                             </h2>
                                         </div>
@@ -128,9 +149,10 @@
                                                         <?php if($lesVideo->lessons_id == $ls->id){?>
 
                                                         <li>
-                                                            <p><button type="button" class="btn"
-                                                                    style="background-color:#F77100;color:white" data-toggle="modal"
-                                                                    data-target="#videoModal<?= $i ?>"
+                                                            <p style="pointer-events: none;"><button type="button"
+                                                                    class="btn"
+                                                                    style="background-color:#F77100;color:white"
+                                                                    data-toggle="modal" data-target="#videoModal<?= $i ?>"
                                                                     data-video="<?= $lesVideo->lesson_video_path ?>"><i
                                                                         class="fab fa-youtube text-white"></i>
                                                                     <?= $lesVideo->lesson_video_name ?></button></p>
@@ -146,8 +168,12 @@
                                                 <ol>
                                                     @foreach ($lessonFile as $lesFile)
                                                         <?php if($lesFile->lessons_id == $ls->id){?>
-                                                        <li>
-                                                            <a class="btn btn-primary" href="{{ asset("files/course/$lesFile->lesson_files_path") }}" target="_blank" role="button"><i class="fa-solid fa-file"></i> <?=$lesFile->lesson_files_name?></a>
+                                                        <li style="pointer-events: none;">
+                                                            <a class="btn btn-primary"
+                                                                href="{{ url('/storage/' . $courses_page->course_name . '/' . $lesFile->lesson_files_path) }}"
+                                                                target="_blank" role="button"><i
+                                                                    class="fa-solid fa-file"></i>
+                                                                <?= $lesFile->lesson_files_name ?></a>
                                                         </li>
                                                         <?php }else{
 
@@ -204,6 +230,123 @@
             </div>
             <div class="col-lg-4"></div>
         </div>
+        <?php }else{ ?>
+        <div class="row mt-5">
+            <div class="col-lg-8">
+                <div class="card" style="border: none;">
+                    <div class="card-body">
+                        <h4 class="card-title">รายละเอียดบทเรียน</h4>
+                        <p class="card-text">
+
+                            <?php $i = 0; ?>
+                            <?php if ($lessonCount == 0) {
+                                echo '<h4><center><u>ไม่มีบทเรียนในตอนนี้</u></center></h4>';
+                            } ?>
+                            @foreach ($lesson as $ls)
+                                <div class="accordion" id="accordionExample">
+                                    <div class="card">
+                                        <div class="card-header" id="headingOne">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                    data-toggle="collapse" data-target="#collapseOne<?= $i ?>"
+                                                    aria-expanded="true" aria-controls="collapseOne<?= $i ?>">
+                                                    <i class="fas fa-arrow-right" style="color:#F77100"></i>
+                                                    <b><?= $ls->lesson_name ?></b>
+                                                </button>
+                                            </h2>
+                                        </div>
+
+                                        <div id="collapseOne<?= $i ?>" class="collapse" aria-labelledby="headingOne"
+                                            data-parent="#accordionExample">
+                                            <div class="card-body">
+
+                                                <h4><b><u><i class="fa-solid fa-circle-play"></i> Video </u></b></h4>
+                                                <ol>
+                                                    @foreach ($lessonVideo as $lesVideo)
+                                                        <?php if($lesVideo->lessons_id == $ls->id){?>
+
+                                                        <li>
+                                                            <p><button type="button" class="btn"
+                                                                    style="background-color:#F77100;color:white"
+                                                                    data-toggle="modal" data-target="#videoModal<?= $i ?>"
+                                                                    data-video="<?= $lesVideo->lesson_video_path ?>"><i
+                                                                        class="fab fa-youtube text-white"></i>
+                                                                    <?= $lesVideo->lesson_video_name ?></button></p>
+                                                        </li>
+
+                                                        <?php }else{
+
+                                                    } ?>
+                                                    @endforeach
+                                                </ol>
+                                                <hr>
+                                                <h4><b><u><i class="fa-solid fa-file"></i> File </u></b></h4>
+                                                <ol>
+                                                    @foreach ($lessonFile as $lesFile)
+                                                        <?php if($lesFile->lessons_id == $ls->id){?>
+                                                        <li>
+                                                            <a class="btn btn-primary"
+                                                                href="{{ url('/storage/' . $courses_page->course_name . '/' . $lesFile->lesson_files_path) }}"
+                                                                target="_blank" role="button"><i
+                                                                    class="fa-solid fa-file"></i>
+                                                                <?= $lesFile->lesson_files_name ?></a>
+                                                        </li>
+                                                        <?php }else{
+
+                                                        } ?>
+                                                    @endforeach
+                                                </ol>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="videoModal<?= $i ?>" tabindex="-1"
+                                                    role="dialog">
+                                                    <div class="modal-dialog modal-dialog-centered modal-lg"
+                                                        role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header bg-dark border-dark">
+                                                                <button type="button" class="close text-white"
+                                                                    data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body bg-dark p-0">
+                                                                <div class="embed-responsive embed-responsive-16by9">
+                                                                    <iframe class="embed-responsive-item"
+                                                                        allowfullscreen></iframe>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <script language='JavaScript' type='text/javascript'>
+                                                    $(document).ready(function() {
+                                                        // Set iframe attributes when the show instance method is called
+                                                        $("#videoModal<?= $i ?>").on("show.bs.modal", function(event) {
+                                                            let button = $(event.relatedTarget); // Button that triggered the modal
+                                                            let url = button.data("video"); // Extract url from data-video attribute
+                                                            $(this).find("iframe").attr({
+                                                                src: url,
+                                                                allow: "accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                                            });
+                                                        });
+
+                                                        // Remove iframe attributes when the modal has finished being hidden from the user
+                                                        $("#videoModal<?= $i ?>").on("hidden.bs.modal", function() {
+                                                            $("#videoModal<?= $i ?> iframe").removeAttr("src allow");
+                                                        });
+                                                    });
+                                                </script>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php $i++; ?>
+                            @endforeach
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+        <?php } ?>
 
     </div>
 @endsection
