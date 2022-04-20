@@ -28,6 +28,29 @@ class CoursemanageController extends Controller
         return view('admins/coursemanage/index',['courses'=>$courses,'userProfile'=>$userProfile]);
     }
 
+    public function coursemanageLesson()
+    {
+        $courseUser = null;
+        $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
+        $userProfile = AdminsUsers::select('id','Fname','Lname')->get();
+        return view('admins/coursemanage/index2',['courses'=>$courses,'userProfile'=>$userProfile]);
+    }
+
+    public function coursemanageRegister()
+    {
+        $courseUser = null;
+        $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
+        $userProfile = AdminsUsers::select('id','Fname','Lname')->get();
+        return view('admins/coursemanage/index3',['courses'=>$courses,'userProfile'=>$userProfile]);
+    }
+
+    public function coursemanageTest()
+    {
+        $courseUser = null;
+        $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
+        $userProfile = AdminsUsers::select('id','Fname','Lname')->get();
+        return view('admins/coursemanage/index4',['courses'=>$courses,'userProfile'=>$userProfile]);
+    }
     /**
      * Show the form for creating a new resource.
      *

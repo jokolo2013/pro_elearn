@@ -3,20 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Courses;
-use App\Lessons;
+use App\Pretest;
+use App\Pretest_answer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class LessonsController extends Controller
+class CoursePretestManageController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        return $id;
+
     }
 
     /**
@@ -37,12 +37,17 @@ class LessonsController extends Controller
      */
     public function store(Request $request)
     {
-        $lessons = new Lessons();
-        $lessons->id_course = $request->id_course;
-        $lessons->lesson_sort = $request->lesson_sort;
-        $lessons->lesson_name = $request->lesson_name;
-        $lessons->save();
-        return redirect()->back();
+        $pretest = new Pretest();
+        $pretest->courses_id = $request->courses_id;
+        $pretest->pretest_question = $request->pretest_question;
+        $pretest->save();
+
+        $answer = new Pretest_answer();
+        $answer->question_id = $pretest->id;
+        $answer->pretest_answer = $request->pretest_answer;
+        $answer->pretest_score = $request->pretest_score;
+        $answer->save();
+        return $answer;
     }
 
     /**
@@ -64,16 +69,9 @@ class LessonsController extends Controller
      */
     public function edit($id)
     {
-
-        $lessons = DB::table('courses')
-        ->join('lessons', 'courses.id', '=', 'lessons.id_course')
-        ->where('lessons.id_course', '=', $id)
-        ->orderBy('lesson_sort', 'asc')
-        ->get();
-        // $lessons = Lessons::where('id_course','=',$id)->orderBy('lesson_sort', 'asc')->get();
-        $lsID = $id;
-        $cname = DB::table('courses')->where('id','=',$id)->first();
-        return view('admins.coursemanage.lessonsmanage.edit',['lessons'=>$lessons, 'id' => $lsID, 'cname'=>$cname]);
+        $cname = Courses::find($id)->first();
+        $pretest = Pretest::where('courses_id','=',$id)->get();
+        return view('admins.coursemanage.coursePretest.index',['cname' => $cname, 'pretest' => $pretest]);
     }
 
     /**
@@ -85,11 +83,7 @@ class LessonsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $lessons = Lessons::find($id);
-        $lessons->lesson_sort = $request->lesson_sort;
-        $lessons->lesson_name = $request->lesson_name;
-        $lessons->save();
-        return redirect()->back();
+        //
     }
 
     /**
@@ -100,8 +94,6 @@ class LessonsController extends Controller
      */
     public function destroy($id)
     {
-        $lessons = Lessons::find($id);
-        $lessons -> delete();
-        return redirect()->back();
+        //
     }
 }

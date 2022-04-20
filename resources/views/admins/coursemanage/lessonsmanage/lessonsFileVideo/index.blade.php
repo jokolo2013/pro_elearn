@@ -12,8 +12,8 @@
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{ url('admins/') }}">Home</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('coursemanage/') }}">จัดการคอร์สเรียน</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('lessonsmanage/'.$courseName->id.'/edit') }}">จัดการคอร์สเรียน</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('coursemanageLesson/') }}">จัดการบทเรียน</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('lessonsmanage/'.$courseName->id.'/edit') }}">{{$courseName->course_name}}</a></li>
             <li class="breadcrumb-item active">จัดการเนื้อหาในบทเรียน</li>
           </ol>
         </div><!-- /.col -->

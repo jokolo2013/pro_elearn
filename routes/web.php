@@ -23,11 +23,23 @@ Route::post('courses-page/','SiteController@registercourses')->name('courses_pag
 
 Auth::routes();
 Route::resource('profile','ProfileController')->name('index','profile');
+
 Route::resource('register_courses','Register_coursesController')->name('index','register_courses');
+
 Route::resource('editusers','AdminsUsersController')->name('index','editusers');
+
+
 Route::resource('coursemanage','CoursemanageController')->name('index','coursemanage');
+Route::get('coursemanageLesson','CoursemanageController@coursemanageLesson')->name('index','coursemanageLesson');
+Route::get('coursemanageRegister','CoursemanageController@coursemanageRegister')->name('index','coursemanageRegister');
+Route::get('coursemanageTest','CoursemanageController@coursemanageTest')->name('index','coursemanageTest');
+
+Route::resource('CoursePretestManage','CoursePretestManageController')->name('index','CoursePretestManage');
+
 Route::resource('Register_coursesManage','Register_coursesManageController')->name('index','Register_coursesManage');
+
 Route::resource('lessonsmanage','LessonsController')->name('index','lessonsmanage');
+
 Route::resource('lessonsfilevideo','LessonsFileVideoController')->name('index','lessonsfilevideo');
 
 Route::get('admins','AdminPageController@index')->name('admins');

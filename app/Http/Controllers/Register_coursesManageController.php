@@ -62,11 +62,14 @@ class Register_coursesManageController extends Controller
         ->join('users', 'register_courses.id_users', '=', 'users.id')
         ->where('register_courses.id_course', '=', $id)
         ->get();
+        $cname = DB::table('courses')
+        ->where('id', '=', $id)
+        ->first();
 
 
 
 
-        return view('admins.coursemanage.register_coursesmanage.index',['register_course' => $register_course]);
+        return view('admins.coursemanage.register_coursesmanage.index',['register_course' => $register_course, 'cname' =>  $cname]);
     }
 
     /**
