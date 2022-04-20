@@ -51,27 +51,27 @@
                                 <div class="form-group form-inline">
                                     <?= Form::label('pretest_answer1', 'คำตอบที่ 1') ?>
                                     <?= Form::text('pretest_answer1', null, ['class' => 'form-control w-50 ml-2 mr-2', 'placeholder' => 'คำตอบที่ 1', 'required']) ?>
-                                        <input type="checkbox" class="form-check-input" name="pretest_score" id="pretest_score" value="1">
+                                        <input type="checkbox" class="form-check-input" name="pretest_score1" id="pretest_score1" value="1">
 
                                 </div>
                                 <div class="form-group form-inline">
                                     <?= Form::label('pretest_answer2', 'คำตอบที่ 2') ?>
                                     <?= Form::text('pretest_answer2', null, ['class' => 'form-control w-50 ml-2 mr-2', 'placeholder' => 'คำตอบที่ 2', 'required']) ?>
-                                        <input type="checkbox" class="form-check-input" name="pretest_score" id="pretest_score" value="1">
+                                        <input type="checkbox" class="form-check-input" name="pretest_score2" id="pretest_score2" value="1">
 
                                 </div>
                                 <div class="form-group form-inline">
                                     <?= Form::label('pretest_answer3', 'คำตอบที่ 3') ?>
                                     <?= Form::text('pretest_answer3', null, ['class' => 'form-control w-50 ml-2 mr-2', 'placeholder' => 'คำตอบที่ 3', 'required']) ?>
-                                        <input type="checkbox" class="form-check-input" name="pretest_score" id="pretest_score" value="1">
+                                        <input type="checkbox" class="form-check-input" name="pretest_score3" id="pretest_score3" value="1">
 
                                 </div>
                                 <div class="form-group form-inline">
                                     <?= Form::label('pretest_answer4', 'คำตอบที่ 4') ?>
                                     <?= Form::text('pretest_answer4', null, ['class' => 'form-control w-50 ml-2 mr-2', 'placeholder' => 'คำตอบที่ 4', 'required']) ?>
-                                        <input type="checkbox" class="form-check-input" name="pretest_score" id="pretest_score" value="1">
+                                        <input type="checkbox" class="form-check-input" name="pretest_score4" id="pretest_score4" value="1">
                                 </div>
-                                <input type="hidden" id="courses_id" name="courses_id" value="{{$cname->id}}">
+                                <input type="hidden" id="courses_id" name="courses_id" value="{{$crid}}">
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
@@ -95,7 +95,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>โจทย์</th>
-                                <th>ภาพประกอบ</th>
+                                {{-- <th>ภาพประกอบ</th> --}}
                                 <th>แก้ไข</th>
                                 <th>ลบ</th>
                             </tr>
@@ -107,7 +107,7 @@
                                 <tr>
                                     <td><?= $i ?></td>
                                     <td>{{$pt->pretest_question}}</td>
-                                    <td>ภาพ</td>
+                                    {{-- <td>ภาพ</td> --}}
                                     <td>แก้ไข</td>
                                     <td>ลบ</td>
                                 </tr>

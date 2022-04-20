@@ -42,12 +42,48 @@ class CoursePretestManageController extends Controller
         $pretest->pretest_question = $request->pretest_question;
         $pretest->save();
 
+
         $answer = new Pretest_answer();
         $answer->question_id = $pretest->id;
-        $answer->pretest_answer = $request->pretest_answer;
-        $answer->pretest_score = $request->pretest_score;
+        $answer->pretest_answer = $request->pretest_answer1;
+        if($request->pretest_score1 == null){
+        $answer->pretest_score = 0;
+        }else{
+            $answer->pretest_score = $request->pretest_score1;
+        }
         $answer->save();
-        return $answer;
+
+        $answer = new Pretest_answer();
+        $answer->question_id = $pretest->id;
+        $answer->pretest_answer = $request->pretest_answer2;
+        if($request->pretest_score2 == null){
+            $answer->pretest_score = 0;
+            }else{
+                $answer->pretest_score = $request->pretest_score2;
+            }
+        $answer->save();
+
+        $answer = new Pretest_answer();
+        $answer->question_id = $pretest->id;
+        $answer->pretest_answer = $request->pretest_answer3;
+        if($request->pretest_score3 == null){
+            $answer->pretest_score = 0;
+            }else{
+                $answer->pretest_score = $request->pretest_score3;
+            }
+        $answer->save();
+
+        $answer = new Pretest_answer();
+        $answer->question_id = $pretest->id;
+        $answer->pretest_answer = $request->pretest_answer4;
+        if($request->pretest_score4 == null){
+            $answer->pretest_score = 0;
+            }else{
+                $answer->pretest_score = $request->pretest_score4;
+            }
+        $answer->save();
+
+        return redirect()->back();
     }
 
     /**
@@ -69,9 +105,10 @@ class CoursePretestManageController extends Controller
      */
     public function edit($id)
     {
-        $cname = Courses::find($id)->first();
+        $cname = Courses::where('id',"LIKE",$id)->first();
+        $crid = $id;
         $pretest = Pretest::where('courses_id','=',$id)->get();
-        return view('admins.coursemanage.coursePretest.index',['cname' => $cname, 'pretest' => $pretest]);
+        return view('admins.coursemanage.coursePretest.index',['cname' => $cname, 'pretest' => $pretest, 'crid'=> $crid]);
     }
 
     /**
