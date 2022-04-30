@@ -7,6 +7,9 @@ use App\Courses_type;
 use App\Lesson_files;
 use App\Lesson_video;
 use App\Lessons;
+use App\Pretest;
+use App\Pretest_answer;
+use App\Pretest_result;
 use App\Register_courses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +22,7 @@ class SiteController extends Controller
     public function index()
     {
 
-        $courses = Courses::with('courses_type')->where('publish','=','1')->orderBy('created_at', 'desc')->paginate(9); // จำกัดเปิดดูเฉพาะคอร์สที่เปิด
+        $courses = Courses::with('courses_type')->where('publish', '=', '1')->orderBy('created_at', 'desc')->paginate(9); // จำกัดเปิดดูเฉพาะคอร์สที่เปิด
         // $courses = Courses::with('courses_type')->orderBy('created_at', 'desc')->paginate(9);
         $lesson = Lessons::all();
         // foreach($courses as $course){
@@ -38,8 +41,8 @@ class SiteController extends Controller
     public function courses_page($id)
     {
         $register_course = null;
-        if(Auth::user()){
-        $register_course = Register_courses::where('id_course' , '=' ,$id)->where('id_users' , '=' , Auth::user()->id)->first();
+        if (Auth::user()) {
+            $register_course = Register_courses::where('id_course', '=', $id)->where('id_users', '=', Auth::user()->id)->first();
         }
         $lessonFile = null;
         $lessonVideo = null;
@@ -66,6 +69,11 @@ class SiteController extends Controller
                 ->select('lesson_video.*')
                 ->get();
         }
+
+        $pretest = Pretest::where('courses_id', '=', $id)->get();
+        foreach ($pretest as $pt) {
+            $pretest_ans = Pretest_answer::all();
+        }
         return view(
             'courses-page',
             [
@@ -76,17 +84,46 @@ class SiteController extends Controller
                 'lessonFile' =>  $lessonFile,
                 'lessonVideo' => $lessonVideo,
                 'register_course' => $register_course,
+                'pretest' => $pretest,
+                'pretest_ans' => $pretest_ans,
             ]
         );
     }
 
     public function registercourses(Request $request)
     {
-            $register_courses = new Register_courses();
-            $register_courses->id_course = $request->id_course;
-            $register_courses->id_users = $request->id_users;
-            $register_courses->save();
+        $register_courses = new Register_courses();
+        $register_courses->id_course = $request->id_course;
+        $register_courses->id_users = $request->id_users;
+        $register_courses->save();
 
+        return redirect()->back();
+    }
+
+    public function sendPretest(Request $request)
+    {
+        $score = 0;
+        for ($i = 0; $i <= $request->loop; $i++) {
+            $ans = DB::table('pretest')
+                ->join('pretest_answer', 'pretest.id', '=', 'pretest_answer.question_id')
+                ->where('pretest.id', '=', $request->input("quest_pretest$i"))
+                ->where('pretest_answer.id', '=', $request->input("ans_pretest$i"))
+                ->get();
+            foreach ($ans as $value) {
+                $pretest_result = new Pretest_result();
+                $pretest_result->user_id = Auth::user()->id;
+                $pretest_result->courses_id = $value->courses_id;
+                $pretest_result->question_id = $value->question_id;
+                $pretest_result->pretest_answer_id = $value->id;
+                if ($value->pretest_score == 1) {
+                    $score++;
+                }
+                $pretest_result->save();
+            }
+        }
+        $pt_score = Register_courses::where('id_course', '=', $request->courses_id)->first();
+        $pt_score->pretest_score = $score;
+        $pt_score->save();
         return redirect()->back();
     }
 

@@ -20,6 +20,7 @@ Route::get('/index','SiteController@index')->name('index');
 Route::get('courses-page/','SiteController@index')->name('index');
 Route::get('courses-page/{id}','SiteController@courses_page')->name('courses_page','courses_page');
 Route::post('courses-page/','SiteController@registercourses')->name('courses_page','courses_page');
+Route::post('courses-page/sendPretest','SiteController@sendPretest')->name('courses_page','courses_page');
 
 Auth::routes();
 Route::resource('profile','ProfileController')->name('index','profile');
@@ -35,6 +36,8 @@ Route::get('coursemanageRegister','CoursemanageController@coursemanageRegister')
 Route::get('coursemanageTest','CoursemanageController@coursemanageTest')->name('index','coursemanageTest');
 
 Route::resource('CoursePretestManage','CoursePretestManageController')->name('index','CoursePretestManage');
+
+Route::resource('AnsManageController','AnsManageController')->name('index','AnsManageController');
 
 Route::resource('Register_coursesManage','Register_coursesManageController')->name('index','Register_coursesManage');
 

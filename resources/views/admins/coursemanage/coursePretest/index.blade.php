@@ -107,9 +107,100 @@
                                 <tr>
                                     <td><?= $i ?></td>
                                     <td>{{$pt->pretest_question}}</td>
+                                    <td>
+                                        {{-- <?= link_to('AnsManageController/'. $pt->id . '/edit', 'แก้ไขโจทย์', ['class' => 'btn btn-dark'], $secure = null) ?> --}}
+                                        <a class="btn btn-dark" href="{{url('AnsManageController/'. $pt->id . '/edit')}}" role="button"><i class="fas fa-edit"></i> แก้ไขโจทย์</a>
+                                    </td>
+
                                     {{-- <td>ภาพ</td> --}}
-                                    <td>แก้ไข</td>
-                                    <td>ลบ</td>
+                                    {{-- <td>
+                                        <button type="button" class="btn btn-dark" data-toggle="modal"
+                                            data-target="#editcourse<?= $i ?>"><i class="fas fa-edit"></i> แก้ไขโจทย์</button>
+                                        <div class="modal fade" id="editcourse<?= $i ?>" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel"> แก้ไขโจทย์
+                                                            {{$pt->pretest_question}}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body text-left">
+                                            <?= Form::model($pt, ['url' => 'CoursePretestManage/' . $pt->id, 'method' => 'put', 'files' => true]) ?>
+                                <div class="form-group">
+                                    <?= Form::label('pretest_question', 'โจทย์') ?>
+                                    <?= Form::text('pretest_question', null, ['class' => 'form-control', 'placeholder' => 'โจทย์', 'required']) ?>
+                                </div>
+                                <hr>
+                                <div class="form-group form-inline">
+                                    <?= Form::label('pretest_answer', 'คำตอบที่ 1') ?>
+                                    <?= Form::text('pretest_answer', null, ['class' => 'form-control w-50 ml-2 mr-2', 'placeholder' => 'คำตอบที่ 1', 'required']) ?>
+                                        <input type="checkbox" class="form-check-input" name="pretest_score1" id="pretest_score1" value="1">
+
+                                </div>
+                                <div class="form-group form-inline">
+                                    <?= Form::label('pretest_answer2', 'คำตอบที่ 2') ?>
+                                    <?= Form::text('pretest_answer2', null, ['class' => 'form-control w-50 ml-2 mr-2', 'placeholder' => 'คำตอบที่ 2', 'required']) ?>
+                                        <input type="checkbox" class="form-check-input" name="pretest_score2" id="pretest_score2" value="1">
+
+                                </div>
+                                <div class="form-group form-inline">
+                                    <?= Form::label('pretest_answer3', 'คำตอบที่ 3') ?>
+                                    <?= Form::text('pretest_answer3', null, ['class' => 'form-control w-50 ml-2 mr-2', 'placeholder' => 'คำตอบที่ 3', 'required']) ?>
+                                        <input type="checkbox" class="form-check-input" name="pretest_score3" id="pretest_score3" value="1">
+
+                                </div>
+                                <div class="form-group form-inline">
+                                    <?= Form::label('pretest_answer4', 'คำตอบที่ 4') ?>
+                                    <?= Form::text('pretest_answer4', null, ['class' => 'form-control w-50 ml-2 mr-2', 'placeholder' => 'คำตอบที่ 4', 'required']) ?>
+                                        <input type="checkbox" class="form-check-input" name="pretest_score4" id="pretest_score4" value="1">
+                                </div>
+                                <input type="hidden" id="courses_id" name="courses_id" value="{{$crid}}">
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">ยกเลิก</button>
+                                                        <button type="submit" class="btn btn-primary">บันทึกข้อมูล</button>
+                                                    </div>
+                                                    {!! Form::close() !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td> --}}
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <button type="button" class="btn btn-danger" data-toggle="modal"
+                                            data-target="#delete<?= $i?>"><i class="fas fa-trash-alt"></i> ลบ
+                                        </button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="delete<?= $i ?>" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        ต้องการลบโจทย์ <b>{{$pt->pretest_question}}</b>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">ยกเลิก</button>
+                                                        <?= Form::open(['url' => 'CoursePretestManage/' . $pt->id, 'method' => 'delete']) ?>
+                                                        <button type="submit" class="btn btn-danger">ลบ</button>
+                                                        {!! Form::close() !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>

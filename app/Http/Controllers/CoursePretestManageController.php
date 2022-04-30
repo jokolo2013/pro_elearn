@@ -6,6 +6,8 @@ use App\Courses;
 use App\Pretest;
 use App\Pretest_answer;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\DB;
 
 class CoursePretestManageController extends Controller
 {
@@ -16,7 +18,7 @@ class CoursePretestManageController extends Controller
      */
     public function index()
     {
-
+        return redirect()->back();
     }
 
     /**
@@ -94,7 +96,7 @@ class CoursePretestManageController extends Controller
      */
     public function show($id)
     {
-        //
+        return "Hello";
     }
 
     /**
@@ -110,6 +112,12 @@ class CoursePretestManageController extends Controller
         $pretest = Pretest::where('courses_id','=',$id)->get();
         return view('admins.coursemanage.coursePretest.index',['cname' => $cname, 'pretest' => $pretest, 'crid'=> $crid]);
     }
+
+    public function editsecond($id)
+    {
+        return "Hello";
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -131,6 +139,12 @@ class CoursePretestManageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ans = DB::table('pretest_answer')->where('question_id','=',$id);
+        $pretest = DB::table('pretest')->where('id','=',$id);
+
+        $ans -> delete();
+        $pretest -> delete();
+
+        return redirect()->back();
     }
 }

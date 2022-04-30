@@ -75,7 +75,9 @@
                                         <?php if($course->publish == 0) echo '<i class="fas fa-circle" style="color:red"></i> ยังไม่เผยแพร่';?>
                                         <?php if($course->publish == 1) echo '<i class="fas fa-circle" style="color:green"></i> เผยแพร่แล้ว' ;?>
                                     </td>
-                                    <td><a class="btn btn-dark" href="CoursePretestManage/<?=$course->id?>/edit" role="button"><i class="fas fa-edit"></i> แบบทดสอบก่อนเรียน</a></td>
+                                    <td>
+                                        <a class="btn btn-dark" href="CoursePretestManage/<?=$course->id?>/edit" role="button"><i class="fas fa-edit"></i> แบบทดสอบก่อนเรียน</a>
+                                    </td>
                                     <td>
                                         <a  class="btn btn-secondary" href="lessonsmanage/<?=$course->id?>/edit"><i class="fas fa-edit"></i> แบบทดสอบหลังเรียน</a>
                                     </td>
