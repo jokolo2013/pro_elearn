@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Pretest;
 use App\Register_courses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,9 +25,9 @@ class Register_coursesController extends Controller
         ->get();
         $register_course_count = $register_course->count();
 
+        return view('register-courses',['register_course' => $register_course, 'register_course_count' => $register_course_count]);
 
 
-        return view('register-courses',['register_course' => $register_course, 'register_course_count' => $register_course_count ]);
     }
 
     /**
@@ -92,6 +93,8 @@ class Register_coursesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $register_course = Register_courses::find($id);
+        $register_course -> delete();
+        return redirect("register_courses")->with('delete', "ยกเลิกการลงทะเบียนสำเร็จ");
     }
 }

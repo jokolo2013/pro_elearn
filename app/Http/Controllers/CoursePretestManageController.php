@@ -44,48 +44,19 @@ class CoursePretestManageController extends Controller
         $pretest->pretest_question = $request->pretest_question;
         $pretest->save();
 
-
-        $answer = new Pretest_answer();
-        $answer->question_id = $pretest->id;
-        $answer->pretest_answer = $request->pretest_answer1;
-        if($request->pretest_score1 == null){
-        $answer->pretest_score = 0;
-        }else{
-            $answer->pretest_score = $request->pretest_score1;
-        }
-        $answer->save();
-
-        $answer = new Pretest_answer();
-        $answer->question_id = $pretest->id;
-        $answer->pretest_answer = $request->pretest_answer2;
-        if($request->pretest_score2 == null){
+        for($i=1;$i<=4;$i++){
+            $answer = new Pretest_answer();
+            $answer->question_id = $pretest->id;
+            $answer->pretest_answer = $request->input("pretest_answer$i");
+            if(($request->input("pretest_score$i")) == null){
             $answer->pretest_score = 0;
             }else{
-                $answer->pretest_score = $request->pretest_score2;
+                $answer->pretest_score = $request->input("pretest_score$i");
             }
-        $answer->save();
-
-        $answer = new Pretest_answer();
-        $answer->question_id = $pretest->id;
-        $answer->pretest_answer = $request->pretest_answer3;
-        if($request->pretest_score3 == null){
-            $answer->pretest_score = 0;
-            }else{
-                $answer->pretest_score = $request->pretest_score3;
+            $answer->save();
             }
-        $answer->save();
 
-        $answer = new Pretest_answer();
-        $answer->question_id = $pretest->id;
-        $answer->pretest_answer = $request->pretest_answer4;
-        if($request->pretest_score4 == null){
-            $answer->pretest_score = 0;
-            }else{
-                $answer->pretest_score = $request->pretest_score4;
-            }
-        $answer->save();
-
-        return redirect()->back();
+        return redirect("CoursePretestManage/$request->courses_id/edit")->with('add', 'เพิ่มข้อมูลสำเร็จ');
     }
 
     /**

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Courses;
-use App\Pretest;
-use App\Pretest_answer;
+use App\Posttest;
+use App\Posttest_answer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class AnsManageController extends Controller
+class CoursePosttestManageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +17,7 @@ class AnsManageController extends Controller
      */
     public function index()
     {
-        return redirect()->back();
+        //
     }
 
     /**
@@ -37,7 +38,23 @@ class AnsManageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $posttest = new Posttest();
+        $posttest->courses_id = $request->courses_id;
+        $posttest->posttest_question = $request->posttest_question;
+        $posttest->save();
+
+        for($i=1;$i<=4;$i++){
+        $answer = new Posttest_answer();
+        $answer->question_id = $posttest->id;
+        $answer->posttest_answer = $request->input("posttest_answer$i");
+        if(($request->input("posttest_score$i")) == null){
+        $answer->posttest_score = 0;
+        }else{
+            $answer->posttest_score = $request->input("posttest_score$i");
+        }
+        $answer->save();
+        }
+        return redirect("CoursePosttestManage/$request->courses_id/edit")->with('add', 'เพิ่มข้อมูลสำเร็จ');
     }
 
     /**
@@ -59,10 +76,10 @@ class AnsManageController extends Controller
      */
     public function edit($id)
     {
-        $pretest = Pretest::where('id', '=', $id)->first();
-        $courses = Courses::where('id', '=', $pretest->courses_id)->first();
-        $answer = Pretest_answer::where('question_id', '=', $id)->get();
-        return view('admins.coursemanage.coursePretest.editans', ['pretest' => $pretest, 'courses' => $courses, 'answer' => $answer]);
+        $cname = Courses::where('id',"LIKE",$id)->first();
+        $crid = $id;
+        $posttest = Posttest::where('courses_id','=',$id)->get();
+        return view('admins.coursemanage.coursePosttest.index',['cname' => $cname, 'posttest' => $posttest, 'crid'=> $crid]);
     }
 
     /**
@@ -74,22 +91,7 @@ class AnsManageController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $pretest = Pretest::find($id);
-        $pretest->pretest_question = $request->pretest_question;
-
-        for ($i = 1; $i <= 4; $i++) {
-            $ans = Pretest_answer::find($request->input("id$i"));
-            $ans->pretest_answer = $request->input("pretest_answer$i");
-            if ($request->input("pretest_score$i") == null) {
-                $ans->pretest_score = 0;
-            } else {
-                $ans->pretest_score = $request->input("pretest_score$i");
-            }
-            $ans->save();
-        }
-        $pretest->save();
-        return redirect("CoursePretestManage/$request->courses_id/edit")->with('status', 'แก้ไขสำเร็จ');
+        //
     }
 
     /**
@@ -100,6 +102,12 @@ class AnsManageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $ans = DB::table('posttest_answer')->where('question_id','=',$id);
+        $posttest = DB::table('posttest')->where('id','=',$id);
+
+        $ans -> delete();
+        $posttest -> delete();
+
+        return redirect()->back();
     }
 }

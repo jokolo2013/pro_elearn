@@ -9,10 +9,10 @@
             <div class="col-lg-4"></div>
         </div>
         <div class="row" style="background-color:#FFFFFF">
-            <div class="col-12">
+            <div class="col-lg-12">
                 <div class="card mt-3 mb-3">
                     <div class="card-header">
-                        <h3 class="card-title"> ลงทะเบียนคอร์สแล้ว {{$register_course_count}} คอร์ส
+                        <h3 class="card-title"> ลงทะเบียนคอร์สแล้ว {{ $register_course_count }} คอร์ส
                         </h3>
                     </div>
                     <!-- /.card-header -->
@@ -23,18 +23,62 @@
                                     <th>#</th>
                                     <th>ชื่อคอร์สเรียน</th>
                                     <th>ลงทะเบียนเมื่อ (ปี-เดือน-วัน)</th>
+                                    <th>คะแนนแบบทดสอบก่อนเรียนที่มากสุด</th>
+                                    <th>จำนวนครั้งที่ทำแบบทดสอบก่อนเรียน</th>
+                                    <th>คะแนนแบบทดสอบหลังเรียนที่มากสุด</th>
+                                    <th>จำนวนครั้งที่ทำแบบทดสอบหลังเรียน</th>
                                     <th>เกียรติบัตร</th>
                                     <th>ยกเลิกการลงทะเบียน</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                $i = 0;
+                                ?>
                                 @foreach ($register_course as $regisc)
+                                    <?php $i++; ?>
                                     <tr>
-                                        <td>1</td>
-                                        <td>{{$regisc->course_name}}</td>
-                                        <td>{{$regisc->created_at}}</td>
+                                        <td>{{ $i }}</td>
+                                        <td>{{ $regisc->course_name }}</td>
+                                        <td>{{ $regisc->created_at }}</td>
+                                        <td>
+                                            {{ $regisc->pretest_score }}
+                                        </td>
+                                        <td>{{ $regisc->pretest_count }}</td>
+                                        <td>{{ $regisc->posttest_score }} </td>
+                                        <td>{{ $regisc->posttest_count }}</td>
                                         <td>-</td>
-                                        <td><a name="" id="" class="btn btn-danger" href="#" role="button">ยกเลิกการลงทะเบียน</a></td>
+                                        <td>
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-danger" data-toggle="modal"
+                                                data-target="#delete<?= $i ?>"><i class="fas fa-trash-alt"></i> ยกเลิกการลงทะเบียน
+                                            </button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="delete<?= $i ?>" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">แจ้งเตือน</h5>
+                                                            <button type="button" class="close"
+                                                                data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            ต้องการยกเลิกการลงทะเบียนคอร์ส <b>{{ $regisc->course_name }}</b>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">ยกเลิก</button>
+                                                            <?= Form::open(['url' => 'register_courses/' . $regisc->id, 'method' => 'delete']) ?>
+                                                            <button type="submit" class="btn btn-danger">ลบ</button>
+                                                            {!! Form::close() !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -67,21 +111,28 @@
     <script src="{{ asset('adminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
     <script>
-        $(function () {
-          $("#example1").DataTable({
-            "responsive": true, "lengthChange": false, "autoWidth": false,
-            "buttons": ["csv","print","colvis"]
-          }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["csv", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
 
-          $('#example2').DataTable({
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-          });
+            $('#example2').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
         });
-      </script>
+    </script>
+    @if (session()->has('delete'))
+    <script>
+        swal("<?php echo session()->get('delete'); ?>", "", "success");
+    </script>
+    @endif
 @endsection

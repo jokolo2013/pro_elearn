@@ -7,6 +7,9 @@ use App\Courses_type;
 use App\Lesson_files;
 use App\Lesson_video;
 use App\Lessons;
+use App\Posttest;
+use App\Posttest_answer;
+use App\Posttest_result;
 use App\Pretest;
 use App\Pretest_answer;
 use App\Pretest_result;
@@ -69,11 +72,24 @@ class SiteController extends Controller
                 ->select('lesson_video.*')
                 ->get();
         }
-
-        $pretest = Pretest::where('courses_id', '=', $id)->get();
-        foreach ($pretest as $pt) {
-            $pretest_ans = Pretest_answer::all();
-        }
+            $pretest = Pretest::where('courses_id', '=', $id)->get();
+            if($pretest->count()==0){
+                $pretest = NULL;
+                $pretest_ans = NULL;
+            }else{
+            foreach ($pretest as $pt) {
+                $pretest_ans = Pretest_answer::all();
+            }
+            }
+            $posttest = Posttest::where('courses_id', '=', $id)->get();
+            if($posttest->count()==0){
+                $posttest = NULL;
+                $posttest_ans = NULL;
+            }else{
+            foreach ($posttest as $pt) {
+                $posttest_ans = Posttest_answer::all();
+            }
+            }
         return view(
             'courses-page',
             [
@@ -86,6 +102,8 @@ class SiteController extends Controller
                 'register_course' => $register_course,
                 'pretest' => $pretest,
                 'pretest_ans' => $pretest_ans,
+                'posttest' => $posttest,
+                'posttest_ans' => $posttest_ans,
             ]
         );
     }
@@ -95,13 +113,18 @@ class SiteController extends Controller
         $register_courses = new Register_courses();
         $register_courses->id_course = $request->id_course;
         $register_courses->id_users = $request->id_users;
+        $register_courses->pretest_score = 0;
+        $register_courses->posttest_score = 0;
+        $register_courses->pretest_count = 0;
+        $register_courses->posttest_count = 0;
         $register_courses->save();
 
-        return redirect()->back();
+        return redirect("courses-page/$request->id_course")->with('register', "ลงทะเบียนสำเร็จ");
     }
 
     public function sendPretest(Request $request)
     {
+        $course = Courses::where('id','=',$request->courses_id)->first();
         $score = 0;
         for ($i = 0; $i <= $request->loop; $i++) {
             $ans = DB::table('pretest')
@@ -121,11 +144,54 @@ class SiteController extends Controller
                 $pretest_result->save();
             }
         }
-        $pt_score = Register_courses::where('id_course', '=', $request->courses_id)->first();
-        $pt_score->pretest_score = $score;
+        $pt_score = Register_courses::where('id_course', '=', $request->courses_id)->where('id_users','=',Auth::user()->id)->first();
+        $pt_score->pretest_count++;
+        if($pt_score->pretest_score<$score){
+            $pt_score->pretest_score = $score;
+            $pt_score->save();
+        }else{
         $pt_score->save();
-        return redirect()->back();
+        }
+
+        // return redirect()->back();
+        return redirect("courses-page/$request->courses_id")->with('sendpretest', "แบบทดสอบก่อนเรียน คอร์สเรียน $course->course_name คะแนนที่ได้คือ $score เต็ม $request->loop");
     }
+
+    public function sendPosttest(Request $request)
+    {
+        $course = Courses::where('id','=',$request->courses_id)->first();
+        $score = 0;
+        for ($i = 0; $i <= $request->loop; $i++) {
+            $ans = DB::table('posttest')
+                ->join('posttest_answer', 'posttest.id', '=', 'posttest_answer.question_id')
+                ->where('posttest.id', '=', $request->input("quest_posttest$i"))
+                ->where('posttest_answer.id', '=', $request->input("ans_posttest$i"))
+                ->get();
+            foreach ($ans as $value) {
+                $posttest_result = new Posttest_result();
+                $posttest_result->user_id = Auth::user()->id;
+                $posttest_result->courses_id = $value->courses_id;
+                $posttest_result->question_id = $value->question_id;
+                $posttest_result->posttest_answer_id = $value->id;
+                if ($value->posttest_score == 1) {
+                    $score++;
+                }
+                $posttest_result->save();
+            }
+        }
+        $pt_score = Register_courses::where('id_course', '=', $request->courses_id)->where('id_users','=',Auth::user()->id)->first();
+        $pt_score->posttest_count++;
+        if($pt_score->posttest_score<$score){
+            $pt_score->posttest_score = $score;
+            $pt_score->save();
+        }else{
+        $pt_score->save();
+        }
+
+        return redirect("courses-page/$request->courses_id")->with('sendpretest', "แบบทดสอบหลังเรียน คอร์สเรียน $course->course_name คะแนนที่ได้คือ $score เต็ม $request->loop");
+    }
+
+
 
     public function login()
     {

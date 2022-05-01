@@ -63,6 +63,7 @@
                     <?= Request::segment(1) == 'lessonsfilevideo' || Request::segment(1) == '' ? 'active' : '' ?>
                     <?= Request::segment(1) == 'coursemanageTest' || Request::segment(1) == '' ? 'active' : '' ?>
                     <?= Request::segment(1) == 'CoursePretestManage' || Request::segment(1) == '' ? 'active' : '' ?>
+                    <?= Request::segment(1) == 'CoursePosttestManage' || Request::segment(1) == '' ? 'active' : '' ?>
                     ">
 
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -104,6 +105,7 @@
                             <a href="{{url('coursemanageTest')}}" class="nav-link
                             <?= Request::segment(1) == 'coursemanageTest' || Request::segment(1) == '' ? 'active' : '' ?>
                             <?= Request::segment(1) == 'CoursePretestManage' || Request::segment(1) == '' ? 'active' : '' ?>
+                            <?= Request::segment(1) == 'CoursePosttestManage' || Request::segment(1) == '' ? 'active' : '' ?>
                             ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>จัดการข้อสอบ</p>

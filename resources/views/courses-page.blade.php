@@ -265,7 +265,8 @@
                             <?php if ($lessonCount == 0) {
                                 echo '<h4><center><u>ไม่มีบทเรียนในตอนนี้</u></center></h4>';
                             } ?>
-                        {{-- <div class="accordion" id="accordionExample">
+
+                        <div class="accordion" id="accordionExample">
                             <div class="card" style="background-color: #949494">
                                 <div class="card-header" id="headingOne">
                                     <h2 class="mb-0">
@@ -279,17 +280,27 @@
                                     </h2>
                                 </div>
 
+                                <?php if($pretest == null){?>
+                                    <div id="pretest" class="collapse" aria-labelledby="headingOne"
+                                    data-parent="#accordionExample">
+                                    <div class="card-body">
+                                                <h4><center><u>ไม่มีแบบทดสอบก่อนเรียนในตอนนี้</u></center></h4>
+                                                </button>
+                                    </div>
+                                </div>
+                                <?php }else{ ?>
                                 <div id="pretest" class="collapse" aria-labelledby="headingOne"
                                     data-parent="#accordionExample">
                                     <div class="card-body">
                                         <ol>
                                             <li>
                                                 <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                    data-target="#exampleModal">
+                                                    data-target="#exampleModal" style="pointer-events: none;">
                                                     <i class="fas fa-question"></i> คลิกเพื่อทำแบบทดสอบก่อนเรียน
                                                 </button>
                                             </li>
                                         </ol>
+
                                         <!-- Modal -->
                                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -333,6 +344,8 @@
                                                                     <hr>
                                                                 @endforeach
                                                                 <input type="hidden" name="loop" id="loop" value="{{$i}}">
+                                                                <input type="hidden" name="courses_id" id="courses_id" value="{{$courses_page->id}}">
+
                                                             </div>
                                                         </div>
                                                         <div class="col-2"></div>
@@ -347,10 +360,12 @@
                                                 {!! Form::close() !!}
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
+                                <?php } ?>
                             </div>
-                        </div> --}}
+                        </div>
 
 
                         @foreach ($lesson as $ls)
@@ -451,6 +466,109 @@
                             <?php $i++; ?>
                         @endforeach
 
+                            {{-- Posttest_Example --}}
+                            <div class="accordion" id="accordionExample">
+                                <div class="card" style="background-color: #949494">
+                                    <div class="card-header" id="headingOne">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                data-toggle="collapse" data-target="#posttest" aria-expanded="true"
+                                                aria-controls="posttest">
+                                                <i class="fas fa-arrow-right" style="color:#F77100"></i>
+                                                <b>แบบทดสอบหลังเรียน</b>
+                                                (เนื้อหาถูกล็อคเนื่องจากยังไม่ได้ลงทะเบียนคอร์ส)
+                                            </button>
+                                        </h2>
+                                    </div>
+
+                                    <?php if($pretest == null){?>
+                                        <div id="posttest" class="collapse" aria-labelledby="headingOne"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                                    <h4><center><u>ไม่มีแบบทดสอบก่อนเรียนในตอนนี้</u></center></h4>
+                                                    </button>
+                                        </div>
+                                    </div>
+                                    <?php }else{ ?>
+                                    <div id="posttest" class="collapse" aria-labelledby="headingOne"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <ol>
+                                                <li>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                        data-target="#posttest_q" style="pointer-events: none;">
+                                                        <i class="fas fa-question"></i> คลิกเพื่อทำแบบทดสอบหลังเรียน
+                                                    </button>
+                                                </li>
+                                            </ol>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="posttest_q" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <?= Form::open(['url' => 'courses-page/sendPosttest', 'files' => false]) ?>
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">แบบทดสอบหลังเรียน
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-2"></div>
+                                                                <div class="col-8">
+                                                                    <?php $i = 0; ?>
+                                                                    @foreach ($posttest as $postt)
+                                                                        <?php $i++; ?>
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                <h4>{{ $i . '.  ' . $postt->posttest_question }}</h4>
+                                                                            </label>
+                                                                            @foreach ($posttest_ans as $post_ans)
+                                                                                <?php if($post_ans->question_id == $postt->id){ ?>
+                                                                                <div class="control-group">
+                                                                                    <label class="control control-radio">
+                                                                                        {{ $post_ans->posttest_answer }}
+                                                                                        <input type="radio"
+                                                                                            name="ans_posttest{{$i}}"
+                                                                                            value="{{ $post_ans->id }}">
+                                                                                        <input type="hidden" name="quest_posttest{{$i}}" value="{{$postt->id}}">
+                                                                                        <div class="control_indicator"></div>
+                                                                                    </label>
+                                                                                </div>
+                                                                                <?php } ?>
+                                                                            @endforeach
+                                                                        </div>
+                                                                        <hr>
+                                                                    @endforeach
+                                                                    <input type="hidden" name="loop" id="loop" value="{{$i}}">
+                                                                    <input type="hidden" name="courses_id" id="courses_id" value="{{$courses_page->id}}">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2"></div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">ยกเลิก</button>
+                                                            <button type="submit" class="btn btn-primary">ส่งคำตอบ</button>
+
+                                                        </div>
+                                                    </div>
+                                                    {!! Form::close() !!}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            {{-- Posttest_Example --}}
+
                         </p>
                     </div>
                 </div>
@@ -469,8 +587,9 @@
                             <?php if ($lessonCount == 0) {
                                 echo '<h4><center><u>ไม่มีบทเรียนในตอนนี้</u></center></h4>';
                             } ?>
+
                             <div class="accordion" id="accordionExample">
-                                <div class="card" style="background-color: #949494">
+                                <div class="card">
                                     <div class="card-header" id="headingOne">
                                         <h2 class="mb-0">
                                             <button class="btn btn-link btn-block text-left text-dark" type="button"
@@ -478,11 +597,19 @@
                                                 aria-controls="pretest">
                                                 <i class="fas fa-arrow-right" style="color:#F77100"></i>
                                                 <b>แบบทดสอบก่อนเรียน</b>
-                                                (เนื้อหาถูกล็อคเนื่องจากยังไม่ได้ลงทะเบียนคอร์ส)
                                             </button>
                                         </h2>
                                     </div>
 
+                                    <?php if($pretest == null){?>
+                                        <div id="pretest" class="collapse" aria-labelledby="headingOne"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                                    <h4><center><u>ไม่มีแบบทดสอบก่อนเรียนในตอนนี้</u></center></h4>
+                                                    </button>
+                                        </div>
+                                    </div>
+                                    <?php }else{ ?>
                                     <div id="pretest" class="collapse" aria-labelledby="headingOne"
                                         data-parent="#accordionExample">
                                         <div class="card-body">
@@ -494,6 +621,7 @@
                                                     </button>
                                                 </li>
                                             </ol>
+
                                             <!-- Modal -->
                                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -538,6 +666,7 @@
                                                                     @endforeach
                                                                     <input type="hidden" name="loop" id="loop" value="{{$i}}">
                                                                     <input type="hidden" name="courses_id" id="courses_id" value="{{$courses_page->id}}">
+
                                                                 </div>
                                                             </div>
                                                             <div class="col-2"></div>
@@ -552,10 +681,13 @@
                                                     {!! Form::close() !!}
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
+                                    <?php } ?>
                                 </div>
                             </div>
+
                             @foreach ($lesson as $ls)
                                 <div class="accordion" id="accordionExample">
                                     <div class="card">
@@ -654,6 +786,108 @@
                                 <?php $i++; ?>
                             @endforeach
 
+                                {{-- Posttest_Example --}}
+                            <div class="accordion" id="accordionExample">
+                                <div class="card">
+                                    <div class="card-header" id="headingOne">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-link btn-block text-left text-dark" type="button"
+                                                data-toggle="collapse" data-target="#posttest" aria-expanded="true"
+                                                aria-controls="posttest">
+                                                <i class="fas fa-arrow-right" style="color:#F77100"></i>
+                                                <b>แบบทดสอบหลังเรียน</b>
+                                            </button>
+                                        </h2>
+                                    </div>
+
+                                    <?php if($pretest == null){?>
+                                        <div id="posttest" class="collapse" aria-labelledby="headingOne"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                                    <h4><center><u>ไม่มีแบบทดสอบก่อนเรียนในตอนนี้</u></center></h4>
+                                                    </button>
+                                        </div>
+                                    </div>
+                                    <?php }else{ ?>
+                                    <div id="posttest" class="collapse" aria-labelledby="headingOne"
+                                        data-parent="#accordionExample">
+                                        <div class="card-body">
+                                            <ol>
+                                                <li>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                        data-target="#posttest_q">
+                                                        <i class="fas fa-question"></i> คลิกเพื่อทำแบบทดสอบหลังเรียน
+                                                    </button>
+                                                </li>
+                                            </ol>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="posttest_q" tabindex="-1" role="dialog"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <?= Form::open(['url' => 'courses-page/sendPosttest', 'files' => false]) ?>
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">แบบทดสอบหลังเรียน
+                                                            </h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-2"></div>
+                                                                <div class="col-8">
+                                                                    <?php $i = 0; ?>
+                                                                    @foreach ($posttest as $postt)
+                                                                        <?php $i++; ?>
+                                                                        <div class="form-group">
+                                                                            <label>
+                                                                                <h4>{{ $i . '.  ' . $postt->posttest_question }}</h4>
+                                                                            </label>
+                                                                            @foreach ($posttest_ans as $post_ans)
+                                                                                <?php if($post_ans->question_id == $postt->id){ ?>
+                                                                                <div class="control-group">
+                                                                                    <label class="control control-radio">
+                                                                                        {{ $post_ans->posttest_answer }}
+                                                                                        <input type="radio"
+                                                                                            name="ans_posttest{{$i}}"
+                                                                                            value="{{ $post_ans->id }}">
+                                                                                        <input type="hidden" name="quest_posttest{{$i}}" value="{{$postt->id}}">
+                                                                                        <div class="control_indicator"></div>
+                                                                                    </label>
+                                                                                </div>
+                                                                                <?php } ?>
+                                                                            @endforeach
+                                                                        </div>
+                                                                        <hr>
+                                                                    @endforeach
+                                                                    <input type="hidden" name="loop" id="loop" value="{{$i}}">
+                                                                    <input type="hidden" name="courses_id" id="courses_id" value="{{$courses_page->id}}">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-2"></div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-dismiss="modal">ยกเลิก</button>
+                                                            <button type="submit" class="btn btn-primary">ส่งคำตอบ</button>
+
+                                                        </div>
+                                                    </div>
+                                                    {!! Form::close() !!}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            {{-- Posttest_Example --}}
+
                         </p>
                     </div>
                 </div>
@@ -665,4 +899,14 @@
     </div>
 @endsection
 @section('footer')
+@if (session()->has('sendpretest'))
+<script>
+    swal("<?php echo session()->get('sendpretest'); ?>", "", "success");
+</script>
+@endif
+@if (session()->has('register'))
+<script>
+    swal("<?php echo session()->get('register'); ?>", "", "success");
+</script>
+@endif
 @endsection

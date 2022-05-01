@@ -97,4 +97,10 @@
             }
         });
     </script>
+
+    @if (session()->has('sendpretest'))
+    <script>
+        swal("<?php echo session()->get('sendpretest'); ?>", "", "success");
+    </script>
+@endif
 @endsection

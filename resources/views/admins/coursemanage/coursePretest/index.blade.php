@@ -11,7 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{url('admins/')}}">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="{{url('coursemanageTest/')}}">จัดการแบบทดสอบก่อนเรียน</a></li>
+                        <li class="breadcrumb-item active"><a href="{{url('coursemanageTest/')}}">จัดการแบบทดสอบ</a></li>
                         <li class="breadcrumb-item active">{{ $cname->course_name }}</li>
                     </ol>
                 </div><!-- /.col -->
@@ -221,4 +221,9 @@
             swal("<?php echo session()->get('status'); ?>", "", "success");
         </script>
     @endif
+    @if (session()->has('add'))
+    <script>
+        swal("<?php echo session()->get('add'); ?>", "", "success");
+    </script>
+@endif
 @endsection

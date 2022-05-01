@@ -14,9 +14,9 @@
                         <li class="breadcrumb-item "><a href="{{ url('coursemanageTest/') }}">จัดการแบบทดสอบก่อนเรียน</a>
                         </li>
                         <li class="breadcrumb-item "><a
-                                href="{{ url('CoursePretestManage/' . $courses->id . '/edit') }}">{{ $courses->course_name }}</a>
+                                href="{{ url('CoursePosttestManage/' . $courses->id . '/edit') }}">{{ $courses->course_name }}</a>
                         </li>
-                        <li class="breadcrumb-item active">{{ $pretest->pretest_question }}</li>
+                        <li class="breadcrumb-item active">{{ $posttest->posttest_question }}</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -39,10 +39,10 @@
                     <div class="card-body">
                         <br>
                         {{-- {{ $courses->links() }} --}}
-                        <?= Form::model($pretest, ['url' => 'AnsManageController/' . $pretest->id, 'method' => 'put', 'files' => false]) ?>
+                        <?= Form::model($posttest, ['url' => 'AnsPosttestController/' . $posttest->id, 'method' => 'put', 'files' => false]) ?>
                         <div class="form-group">
-                            <?= Form::label('pretest_question', 'โจทย์') ?>
-                            <?= Form::text('pretest_question', null, ['class' => 'form-control', 'placeholder' => 'โจทย์', 'required']) ?>
+                            <?= Form::label('posttest_question', 'โจทย์') ?>
+                            <?= Form::text('posttest_question', null, ['class' => 'form-control', 'placeholder' => 'โจทย์', 'required']) ?>
                         </div>
                         {{-- <div class="form-group">
                                     {!! Form::label('course_images', 'เพิ่มรูปภาพ') !!}
@@ -55,18 +55,18 @@
                         <div class="form-group form-inline">
                            <div class="form-group">
                              <label for="ans<?php echo $i?>" class="mr-3">คำตอบที่ {{$i}}</label>
-                             <input type="text" class="form-control mr-3" name="pretest_answer<?php echo $i?>" id="pretest_answer<?php echo $i?>" aria-describedby="helpId" placeholder="คำตอบที่ <?php echo  $i?>" value="<?php echo $ans->pretest_answer?>">
+                             <input type="text" class="form-control mr-3" name="posttest_answer<?php echo $i?>" id="posttest_answer<?php echo $i?>" aria-describedby="helpId" placeholder="คำตอบที่ <?php echo  $i?>" value="<?php echo $ans->posttest_answer?>">
                            </div>
-                            <input type="checkbox" class="form-check-input" name="pretest_score{{$i}}" id="pretest_score{{$i}}"
-                                value="1" <?php if($ans->pretest_score == 1) echo 'checked';?>>
+                            <input type="checkbox" class="form-check-input" name="posttest_score{{$i}}" id="posttest_score{{$i}}"
+                                value="1" <?php if($ans->posttest_score == 1) echo 'checked';?>>
                             <input type="hidden" id="id{{$i}}" name="id{{$i}}" value="{{ $ans->id }}">
                         </div>
                         @endforeach
-                        <input type="hidden" id="id" name="id" value="{{ $pretest->id }}">
+                        <input type="hidden" id="id" name="id" value="{{ $posttest->id }}">
                         <input type="hidden" id="courses_id" name="courses_id" value="{{$courses->id}}">
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ url('CoursePretestManage/' . $courses->id . '/edit') }}" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</a>
+                        <a href="{{ url('CoursePosttestManage/' . $courses->id . '/edit') }}" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</a>
                         <button type="submit" class="btn btn-primary">บันทึก</button>
                     </div>
                     {!! Form::close() !!}

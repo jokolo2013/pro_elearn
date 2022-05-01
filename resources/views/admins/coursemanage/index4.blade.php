@@ -79,7 +79,7 @@
                                         <a class="btn btn-dark" href="CoursePretestManage/<?=$course->id?>/edit" role="button"><i class="fas fa-edit"></i> แบบทดสอบก่อนเรียน</a>
                                     </td>
                                     <td>
-                                        <a  class="btn btn-secondary" href="lessonsmanage/<?=$course->id?>/edit"><i class="fas fa-edit"></i> แบบทดสอบหลังเรียน</a>
+                                        <a  class="btn btn-secondary" href="CoursePosttestManage/<?=$course->id?>/edit"><i class="fas fa-edit"></i> แบบทดสอบหลังเรียน</a>
                                     </td>
                                 </tr>
                             @endforeach

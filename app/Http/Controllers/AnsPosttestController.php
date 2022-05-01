@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Courses;
-use App\Pretest;
-use App\Pretest_answer;
+use App\Posttest;
+use App\Posttest_answer;
 use Illuminate\Http\Request;
 
-class AnsManageController extends Controller
+class AnsPosttestController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -59,10 +59,10 @@ class AnsManageController extends Controller
      */
     public function edit($id)
     {
-        $pretest = Pretest::where('id', '=', $id)->first();
-        $courses = Courses::where('id', '=', $pretest->courses_id)->first();
-        $answer = Pretest_answer::where('question_id', '=', $id)->get();
-        return view('admins.coursemanage.coursePretest.editans', ['pretest' => $pretest, 'courses' => $courses, 'answer' => $answer]);
+        $posttest = Posttest::where('id', '=', $id)->first();
+        $courses = Courses::where('id', '=', $posttest->courses_id)->first();
+        $answer = Posttest_answer::where('question_id', '=', $id)->get();
+        return view('admins.coursemanage.coursePosttest.editans', ['posttest' => $posttest, 'courses' => $courses, 'answer' => $answer]);
     }
 
     /**
@@ -74,22 +74,21 @@ class AnsManageController extends Controller
      */
     public function update(Request $request, $id)
     {
-
-        $pretest = Pretest::find($id);
-        $pretest->pretest_question = $request->pretest_question;
+        $posttest = Posttest::find($id);
+        $posttest->posttest_question = $request->posttest_question;
 
         for ($i = 1; $i <= 4; $i++) {
-            $ans = Pretest_answer::find($request->input("id$i"));
-            $ans->pretest_answer = $request->input("pretest_answer$i");
-            if ($request->input("pretest_score$i") == null) {
-                $ans->pretest_score = 0;
+            $ans = Posttest_answer::find($request->input("id$i"));
+            $ans->posttest_answer = $request->input("posttest_answer$i");
+            if ($request->input("posttest_score$i") == null) {
+                $ans->posttest_score = 0;
             } else {
-                $ans->pretest_score = $request->input("pretest_score$i");
+                $ans->posttest_score = $request->input("posttest_score$i");
             }
             $ans->save();
         }
-        $pretest->save();
-        return redirect("CoursePretestManage/$request->courses_id/edit")->with('status', 'แก้ไขสำเร็จ');
+        $posttest->save();
+        return redirect("CoursePosttestManage/$request->courses_id/edit")->with('status', 'แก้ไขสำเร็จ');
     }
 
     /**
