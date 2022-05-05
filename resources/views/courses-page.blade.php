@@ -481,7 +481,7 @@
                                         </h2>
                                     </div>
 
-                                    <?php if($pretest == null){?>
+                                    <?php if($posttest == null){?>
                                         <div id="posttest" class="collapse" aria-labelledby="headingOne"
                                         data-parent="#accordionExample">
                                         <div class="card-body">
@@ -786,6 +786,7 @@
                                 <?php $i++; ?>
                             @endforeach
 
+
                                 {{-- Posttest_Example --}}
                             <div class="accordion" id="accordionExample">
                                 <div class="card">
@@ -800,11 +801,11 @@
                                         </h2>
                                     </div>
 
-                                    <?php if($pretest == null){?>
+                                    <?php if($posttest == null){?>
                                         <div id="posttest" class="collapse" aria-labelledby="headingOne"
                                         data-parent="#accordionExample">
                                         <div class="card-body">
-                                                    <h4><center><u>ไม่มีแบบทดสอบก่อนเรียนในตอนนี้</u></center></h4>
+                                                    <h4><center><u>ไม่มีแบบทดสอบหลังเรียนในตอนนี้</u></center></h4>
                                                     </button>
                                         </div>
                                     </div>
@@ -814,6 +815,7 @@
                                         <div class="card-body">
                                             <ol>
                                                 <li>
+                                                    <?php if($certificate == null){ ?>
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                                         data-target="#posttest_q">
                                                         <i class="fas fa-question"></i> คลิกเพื่อทำแบบทดสอบหลังเรียน
@@ -881,12 +883,19 @@
                                                 </div>
                                             </div>
 
+                                            <?php }else{ ?>
+                                                <a href="{{ route('register_courses') }}" class="btn btn-primary">
+                                                <i class="fas fa-question"></i> ได้รับเกียรติบัตรแล้ว
+                                            </a>
+                                            <?php } ?>
+
                                         </div>
                                     </div>
                                     <?php } ?>
                                 </div>
                             </div>
                             {{-- Posttest_Example --}}
+
 
                         </p>
                     </div>

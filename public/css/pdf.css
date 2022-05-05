@@ -1,0 +1,28 @@
+@font-face {
+    font-family: 'THSarabunNew';
+    font-style: normal;
+    font-weight: normal;
+    src: url("{{ asset('public/certificate_fonts/THSarabunNew.ttf') }}") format('truetype');
+}
+@font-face {
+    font-family: 'THSarabunNew';
+    font-style: normal;
+    font-weight: bold;
+    src: url("{{ asset('public/certificate_fonts/THSarabunNew Bold.ttf') }}") format('truetype');
+}
+@font-face {
+    font-family: 'THSarabunNew';
+    font-style: italic;
+    font-weight: normal;
+    src: url("{{ asset('public/certificate_fonts/THSarabunNew Italic.ttf') }}") format('truetype');
+}
+@font-face {
+    font-family: 'THSarabunNew';
+    font-style: italic;
+    font-weight: bold;
+    src: url("{{ asset('public/certificate_fonts/THSarabunNew BoldItalic.ttf') }}") format('truetype');
+}
+
+body {
+    font-family: "THSarabunNew";
+}

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Courses extends Model
 {
     protected $table = 'courses';
-    protected $fillable = ['id', 'id_users', 'course_type_id', 'course_name', 'course_images', 'course_videos', 'course_detail', 'course_difficulty', 'course_times', 'course_will_learn', 'course_objective', 'viewer', 'publish', 'pretest_publish', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'id_users', 'course_type_id', 'course_name', 'course_images', 'course_videos', 'course_detail', 'course_difficulty', 'course_times', 'course_will_learn', 'course_objective', 'viewer', 'publish', 'courses_passed', 'created_at', 'updated_at'];
 
     public function Courses_type()
     {

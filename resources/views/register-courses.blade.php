@@ -47,11 +47,18 @@
                                         <td>{{ $regisc->pretest_count }}</td>
                                         <td>{{ $regisc->posttest_score }} </td>
                                         <td>{{ $regisc->posttest_count }}</td>
-                                        <td>-</td>
+                                        <td>
+                                            @foreach ($certificate as $certi)
+                                                <?php if ($certi->courses_id == $regisc->id_course && $certi->user_id == Auth::user()->id){ ?>
+                                                    <a class="btn btn-success" href="Viewcertificate/<?=$certi->id?>" target="_blank" role="button">ดูเกียรติบัตร</a>
+                                                    <?php } ?>
+                                            @endforeach
+                                        </td>
                                         <td>
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#delete<?= $i ?>"><i class="fas fa-trash-alt"></i> ยกเลิกการลงทะเบียน
+                                                data-target="#delete<?= $i ?>"><i class="fas fa-trash-alt"></i>
+                                                ยกเลิกการลงทะเบียน
                                             </button>
                                             <!-- Modal -->
                                             <div class="modal fade" id="delete<?= $i ?>" tabindex="-1" role="dialog"
@@ -66,7 +73,8 @@
                                                             </button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            ต้องการยกเลิกการลงทะเบียนคอร์ส <b>{{ $regisc->course_name }}</b>
+                                                            ต้องการยกเลิกการลงทะเบียนคอร์ส
+                                                            <b>{{ $regisc->course_name }}</b>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"
@@ -131,8 +139,8 @@
         });
     </script>
     @if (session()->has('delete'))
-    <script>
-        swal("<?php echo session()->get('delete'); ?>", "", "success");
-    </script>
+        <script>
+            swal("<?php echo session()->get('delete'); ?>", "", "success");
+        </script>
     @endif
 @endsection

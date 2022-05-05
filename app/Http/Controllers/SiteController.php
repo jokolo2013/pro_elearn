@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Certificate;
 use App\Courses;
 use App\Courses_type;
 use App\Lesson_files;
@@ -72,24 +73,29 @@ class SiteController extends Controller
                 ->select('lesson_video.*')
                 ->get();
         }
-            $pretest = Pretest::where('courses_id', '=', $id)->get();
-            if($pretest->count()==0){
-                $pretest = NULL;
-                $pretest_ans = NULL;
-            }else{
+        $pretest = Pretest::where('courses_id', '=', $id)->get();
+        if ($pretest->count() == 0) {
+            $pretest = NULL;
+            $pretest_ans = NULL;
+        } else {
             foreach ($pretest as $pt) {
                 $pretest_ans = Pretest_answer::all();
             }
-            }
-            $posttest = Posttest::where('courses_id', '=', $id)->get();
-            if($posttest->count()==0){
-                $posttest = NULL;
-                $posttest_ans = NULL;
-            }else{
+        }
+        $posttest = Posttest::where('courses_id', '=', $id)->get();
+        if ($posttest->count() == 0) {
+            $posttest = NULL;
+            $posttest_ans = NULL;
+        } else {
             foreach ($posttest as $pt) {
                 $posttest_ans = Posttest_answer::all();
             }
-            }
+        }
+        if(Auth::user()){
+        $certificate = Certificate::where('courses_id','=',$id)->where('user_id','=',Auth::user()->id)->first();
+        }else{
+            $certificate = null;
+        }
         return view(
             'courses-page',
             [
@@ -104,6 +110,7 @@ class SiteController extends Controller
                 'pretest_ans' => $pretest_ans,
                 'posttest' => $posttest,
                 'posttest_ans' => $posttest_ans,
+                'certificate' => $certificate ,
             ]
         );
     }
@@ -124,7 +131,7 @@ class SiteController extends Controller
 
     public function sendPretest(Request $request)
     {
-        $course = Courses::where('id','=',$request->courses_id)->first();
+        $course = Courses::where('id', '=', $request->courses_id)->first();
         $score = 0;
         for ($i = 0; $i <= $request->loop; $i++) {
             $ans = DB::table('pretest')
@@ -144,22 +151,20 @@ class SiteController extends Controller
                 $pretest_result->save();
             }
         }
-        $pt_score = Register_courses::where('id_course', '=', $request->courses_id)->where('id_users','=',Auth::user()->id)->first();
+        $pt_score = Register_courses::where('id_course', '=', $request->courses_id)->where('id_users', '=', Auth::user()->id)->first();
         $pt_score->pretest_count++;
-        if($pt_score->pretest_score<$score){
+        if ($pt_score->pretest_score < $score) {
             $pt_score->pretest_score = $score;
             $pt_score->save();
-        }else{
-        $pt_score->save();
+        } else {
+            $pt_score->save();
         }
-
-        // return redirect()->back();
         return redirect("courses-page/$request->courses_id")->with('sendpretest', "แบบทดสอบก่อนเรียน คอร์สเรียน $course->course_name คะแนนที่ได้คือ $score เต็ม $request->loop");
     }
 
     public function sendPosttest(Request $request)
     {
-        $course = Courses::where('id','=',$request->courses_id)->first();
+        $course = Courses::where('id', '=', $request->courses_id)->first();
         $score = 0;
         for ($i = 0; $i <= $request->loop; $i++) {
             $ans = DB::table('posttest')
@@ -179,16 +184,41 @@ class SiteController extends Controller
                 $posttest_result->save();
             }
         }
-        $pt_score = Register_courses::where('id_course', '=', $request->courses_id)->where('id_users','=',Auth::user()->id)->first();
+        $pt_score = Register_courses::where('id_course', '=', $request->courses_id)->where('id_users', '=', Auth::user()->id)->first();
         $pt_score->posttest_count++;
-        if($pt_score->posttest_score<$score){
+        if ($pt_score->posttest_score < $score) {
+            if (($score / $request->loop * 100) > $course->courses_passed) {
+                $passed = 'สอบผ่าน ' . $score / $request->loop * 100 .' %  ยินดีด้วยคุณได้ปลดล็อคเกียรติบัตรประจำคอร์สแล้ว';
+                $passedif = 'เกณฑ์ที่ผ่านคือ ' . $course->courses_passed .' %';
+
+                $certificate = new Certificate();
+                $certificate->courses_id = $request->courses_id;
+                $certificate->user_id = Auth::user()->id;
+                $certificate->save();
+            } else {
+                $passed = 'สอบไม่ผ่าน ' . $score / $request->loop * 100 .' %';
+                $passedif = 'เกณฑ์ ' . $course->courses_passed .'%';
+            }
             $pt_score->posttest_score = $score;
             $pt_score->save();
-        }else{
-        $pt_score->save();
-        }
+            return redirect("courses-page/$request->courses_id")->with('sendpretest', "แบบทดสอบก่อนเรียน คอร์สเรียน $course->course_name  คะแนนที่ได้คือ $score เต็ม $request->loop   $passed  $passedif");
+        } else {
+            if (($score / $request->loop * 100) > $course->courses_passed) {
+                $passed = 'สอบผ่าน ' . $score / $request->loop * 100 .' %  ยินดีด้วยคุณได้ปลดล็อคเกียรติบัตรประจำคอร์สแล้ว';
+                $passedif = 'เกณฑ์ที่ผ่านคือ ' . $course->courses_passed .' %';
 
-        return redirect("courses-page/$request->courses_id")->with('sendpretest', "แบบทดสอบหลังเรียน คอร์สเรียน $course->course_name คะแนนที่ได้คือ $score เต็ม $request->loop");
+                $certificate = new Certificate();
+                $certificate->courses_id = $request->courses_id;
+                $certificate->user_id = Auth::user()->id;
+                $certificate->save();
+            } else {
+                $passed = 'สอบไม่ผ่าน ' . $score / $request->loop * 100 .' %';
+                $passedif = 'เกณฑ์ ' . $course->courses_passed .'%';
+            }
+            $pt_score->save();
+            return redirect("courses-page/$request->courses_id")->with('sendpretest', "แบบทดสอบก่อนเรียน คอร์สเรียน $course->course_name  คะแนนที่ได้คือ $score เต็ม $request->loop   $passed  $passedif");
+
+        }
     }
 
 

@@ -27,6 +27,8 @@ Auth::routes();
 Route::resource('profile','ProfileController')->name('index','profile');
 
 Route::resource('register_courses','Register_coursesController')->name('index','register_courses');
+Route::get('Viewcertificate/',function(){ return redirect()->back();});
+Route::get('Viewcertificate/{id}','Register_coursesController@Viewcertificate')->name('index','Viewcertificate');
 
 Route::resource('editusers','AdminsUsersController')->name('index','editusers');
 
@@ -36,9 +38,17 @@ Route::get('coursemanageLesson','CoursemanageController@coursemanageLesson')->na
 Route::get('coursemanageRegister','CoursemanageController@coursemanageRegister')->name('index','coursemanageRegister');
 Route::get('coursemanageTest','CoursemanageController@coursemanageTest')->name('index','coursemanageTest');
 
+Route::get('CourseCertificate','CoursemanageController@CourseCertificate')->name('index','CourseCertificate');
+Route::get('CourseCertificateManageView/{id}','CoursemanageController@CourseCertificateManageView')->name('index','CourseCertificateManageView');
+Route::get('CourseCertificateManageView/',function(){ return redirect()->back();});
+
+Route::resource('CourseCertificateManage','CourseCertificateManageController')->name('index','CourseCertificateManage');
+
 Route::resource('CoursePretestManage','CoursePretestManageController')->name('index','CoursePretestManage');
 
 Route::resource('CoursePosttestManage','CoursePosttestManageController')->name('index','CoursePretestManage');
+
+
 
 Route::resource('AnsManageController','AnsManageController')->name('index','AnsManageController');
 

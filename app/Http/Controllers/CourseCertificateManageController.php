@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Certificate_setting;
+use App\Certificate_template;
 use App\Courses;
-use App\Posttest;
-use App\Posttest_answer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class CoursePosttestManageController extends Controller
+class CourseCertificateManageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -38,23 +37,7 @@ class CoursePosttestManageController extends Controller
      */
     public function store(Request $request)
     {
-        $posttest = new Posttest();
-        $posttest->courses_id = $request->courses_id;
-        $posttest->posttest_question = $request->posttest_question;
-        $posttest->save();
-
-        for($i=1;$i<=4;$i++){
-        $answer = new Posttest_answer();
-        $answer->question_id = $posttest->id;
-        $answer->posttest_answer = $request->input("posttest_answer$i");
-        if(($request->input("posttest_score$i")) == null){
-        $answer->posttest_score = 0;
-        }else{
-            $answer->posttest_score = $request->input("posttest_score$i");
-        }
-        $answer->save();
-        }
-        return redirect("CoursePosttestManage/$request->courses_id/edit")->with('add', 'เพิ่มข้อมูลสำเร็จ');
+        //
     }
 
     /**
@@ -76,10 +59,10 @@ class CoursePosttestManageController extends Controller
      */
     public function edit($id)
     {
-        $cname = Courses::where('id',"LIKE",$id)->first();
-        $crid = $id;
-        $posttest = Posttest::where('courses_id','=',$id)->get();
-        return view('admins.coursemanage.coursePosttest.index',['cname' => $cname, 'posttest' => $posttest, 'crid'=> $crid]);
+        $courses = Courses::find($id);
+        $certificate_setting = Certificate_setting::where('courses_id','=',$id)->first();
+        $template_public = Certificate_template::where('publish','=',1)->get();
+        return view('admins.coursemanage.certificatemanage.index',['courses'=>$courses, 'certificate_setting'=>$certificate_setting , 'template_public'=>$template_public]);
     }
 
     /**
@@ -102,12 +85,6 @@ class CoursePosttestManageController extends Controller
      */
     public function destroy($id)
     {
-        $ans = DB::table('posttest_answer')->where('question_id','=',$id);
-        $posttest = DB::table('posttest')->where('id','=',$id);
-
-        $ans -> delete();
-        $posttest -> delete();
-
-        return redirect()->back();
+        //
     }
 }

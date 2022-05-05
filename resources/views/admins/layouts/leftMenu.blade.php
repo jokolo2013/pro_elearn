@@ -53,7 +53,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item  menu-open">
+                <li class="nav-item menu-open">
                     <a href="#" class="nav-link
                     <?= Request::segment(1) == 'Register_coursesManage' || Request::segment(1) == '' ? 'active' : '' ?>
                     <?= Request::segment(1) == 'coursemanageRegister' || Request::segment(1) == '' ? 'active' : '' ?>
@@ -64,6 +64,7 @@
                     <?= Request::segment(1) == 'coursemanageTest' || Request::segment(1) == '' ? 'active' : '' ?>
                     <?= Request::segment(1) == 'CoursePretestManage' || Request::segment(1) == '' ? 'active' : '' ?>
                     <?= Request::segment(1) == 'CoursePosttestManage' || Request::segment(1) == '' ? 'active' : '' ?>
+                    <?= Request::segment(1) == 'CourseCertificate' || Request::segment(1) == '' ? 'active' : '' ?>
                     ">
 
                         <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -112,13 +113,17 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./index3.html" class="nav-link">
+                            <a href="{{url('CourseCertificate')}}" class="nav-link
+                            <?= Request::segment(1) == 'CourseCertificate' || Request::segment(1) == '' ? 'active' : '' ?>
+                            ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>จัดการเกียรติบัตร</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
+
 
             </ul>
         </nav>

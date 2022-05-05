@@ -1,12 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use PDF;
+use App\Certificate;
+use App\Certificate_setting;
+use App\Certificate_template;
+use App\Courses;
 use App\Pretest;
 use App\Register_courses;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Constraint\Count;
 
 class Register_coursesController extends Controller
 {
@@ -25,9 +31,19 @@ class Register_coursesController extends Controller
         ->get();
         $register_course_count = $register_course->count();
 
-        return view('register-courses',['register_course' => $register_course, 'register_course_count' => $register_course_count]);
+        $certificate = Certificate::where('user_id','=',Auth::user()->id)->get();
+        return view('register-courses',['register_course' => $register_course, 'register_course_count' => $register_course_count, 'certificate' => $certificate]);
+    }
 
-
+    public function Viewcertificate($id)
+    {
+        $certificate = Certificate::find($id);
+        $user = User::find($certificate->user_id);
+        $course = Courses::find($certificate->courses_id);
+        $certificate_setting = Certificate_setting::where('courses_id','=',$certificate->courses_id)->first();
+        $certificate_template = Certificate_template::find($certificate_setting->certificate_template_id);
+        $pdf = PDF::loadView('certificate',['course'=>$course,'user'=>$user,'certificate'=>$certificate,'certificate_setting' => $certificate_setting,'certificate_template'=>$certificate_template])->setPaper('a4', 'landscape');
+        return $pdf->stream();
     }
 
     /**

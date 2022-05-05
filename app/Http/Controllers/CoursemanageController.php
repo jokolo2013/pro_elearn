@@ -1,8 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use File;
+use PDF;
+
 use App\AdminsUsers;
+use App\Certificate_setting;
+use App\Certificate_template;
 use App\Courses;
 use App\Lesson_files;
 use App\Lesson_video;
@@ -13,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
+
 class CoursemanageController extends Controller
 {
     /**
@@ -24,32 +30,48 @@ class CoursemanageController extends Controller
     {
         $courseUser = null;
         $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
-        $userProfile = AdminsUsers::select('id','Fname','Lname')->get();
-        return view('admins/coursemanage/index',['courses'=>$courses,'userProfile'=>$userProfile]);
+        $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
+        return view('admins/coursemanage/index', ['courses' => $courses, 'userProfile' => $userProfile]);
     }
 
     public function coursemanageLesson()
     {
         $courseUser = null;
         $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
-        $userProfile = AdminsUsers::select('id','Fname','Lname')->get();
-        return view('admins/coursemanage/index2',['courses'=>$courses,'userProfile'=>$userProfile]);
+        $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
+        return view('admins/coursemanage/index2', ['courses' => $courses, 'userProfile' => $userProfile]);
     }
 
     public function coursemanageRegister()
     {
         $courseUser = null;
         $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
-        $userProfile = AdminsUsers::select('id','Fname','Lname')->get();
-        return view('admins/coursemanage/index3',['courses'=>$courses,'userProfile'=>$userProfile]);
+        $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
+        return view('admins/coursemanage/index3', ['courses' => $courses, 'userProfile' => $userProfile]);
     }
 
     public function coursemanageTest()
     {
         $courseUser = null;
         $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
-        $userProfile = AdminsUsers::select('id','Fname','Lname')->get();
-        return view('admins/coursemanage/index4',['courses'=>$courses,'userProfile'=>$userProfile]);
+        $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
+        return view('admins/coursemanage/index4', ['courses' => $courses, 'userProfile' => $userProfile]);
+    }
+
+    public function CourseCertificate()
+    {
+        $courseUser = null;
+        $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
+        $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
+        return view('admins/coursemanage/index5', ['courses' => $courses, 'userProfile' => $userProfile]);
+    }
+
+    public function CourseCertificateManageView($id)
+    {
+        $certificate_setting = Certificate_setting::where('courses_id','=',$id)->first();
+        $certificate_template = Certificate_template::where('id','=',$certificate_setting->certificate_template_id)->first();
+        $pdf = PDF::loadView('admins.coursemanage.certificatemanage.viewExample',['certificate_setting' => $certificate_setting,'certificate_template'=>$certificate_template])->setPaper('a4', 'landscape');
+        return $pdf->stream();
     }
     /**
      * Show the form for creating a new resource.
@@ -75,7 +97,7 @@ class CoursemanageController extends Controller
         $course->publish = 0; // 0 ปิด /1 เปิด
         $course->course_type_id = $request->course_type_id;
         $course->course_name = $request->course_name;
-        $cuteVideoLink = Str::substr($request->course_videos,17,50);
+        $cuteVideoLink = Str::substr($request->course_videos, 17, 50);
         $course->course_videos = "https://www.youtube.com/embed/$cuteVideoLink";
         $course->course_detail = $request->course_detail;
         $course->course_difficulty = $request->course_difficulty;
@@ -129,11 +151,11 @@ class CoursemanageController extends Controller
         $course = Courses::find($id);
         $course->course_type_id = $request->course_type_id;
         $course->course_name = $request->course_name;
-        if($course->course_videos != $request->course_videos){
-        $cuteVideoLink = Str::substr($request->course_videos,17,50);
-        $course->course_videos = "https://www.youtube.com/embed/$cuteVideoLink";
-        }else{
-        $course->course_videos = $request->course_videos;
+        if ($course->course_videos != $request->course_videos) {
+            $cuteVideoLink = Str::substr($request->course_videos, 17, 50);
+            $course->course_videos = "https://www.youtube.com/embed/$cuteVideoLink";
+        } else {
+            $course->course_videos = $request->course_videos;
         }
         $course->publish = $request->publish;
         $course->course_detail = $request->course_detail;
@@ -168,18 +190,18 @@ class CoursemanageController extends Controller
     {
 
         $courses = Courses::find($id);
-        $lesson = DB::table('lessons')->where('id_course','=',$id);
-        $lesson_file = DB::table('lesson_files')->where('id_course','=',$id);
-        $lesson_video = DB::table('lesson_video')->where('id_course','=',$id);
+        $lesson = DB::table('lessons')->where('id_course', '=', $id);
+        $lesson_file = DB::table('lesson_files')->where('id_course', '=', $id);
+        $lesson_video = DB::table('lesson_video')->where('id_course', '=', $id);
 
-        if($courses->course_images != null){
-            File::delete(public_path(). '\\images\\course\\cover\\'. $courses->course_images);
+        if ($courses->course_images != null) {
+            File::delete(public_path() . '\\images\\course\\cover\\' . $courses->course_images);
         }
 
-        $lesson_file -> delete();
-        $lesson_video -> delete();
-        $lesson -> delete();
-        $courses -> delete();
+        $lesson_file->delete();
+        $lesson_video->delete();
+        $lesson->delete();
+        $courses->delete();
 
         return redirect()->action('CoursemanageController@index');
     }
