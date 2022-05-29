@@ -27,10 +27,12 @@ class AdminsUsersController extends Controller
     }
     public function index()
     {
-        // $users = DB::table('users')
-        // ->join('role', 'users.id_role', '=', 'role.id')
-        // ->select('users.*', 'role.status_name',)
-        // ->orderBy('created_at', 'desc')->paginate(10);
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        if (Auth::user()->id_role == 1){
+            return redirect('admins')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         $users = AdminsUsers::with('profile')->orderBy('id', 'desc')->paginate(7);
         return view('admins/editusers/index', ['users' => $users]);
     }
@@ -42,6 +44,12 @@ class AdminsUsersController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        if (Auth::user()->id_role == 1){
+            return redirect('admins')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         return view('admins.editusers.create');
     }
 
@@ -93,6 +101,12 @@ class AdminsUsersController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        if (Auth::user()->id_role == 1){
+            return redirect('admins')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         $users = AdminsUsers::findOrFail($id);
         $se1 = '';
         $se2 = '';

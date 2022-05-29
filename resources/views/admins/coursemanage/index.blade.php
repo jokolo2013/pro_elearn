@@ -72,11 +72,15 @@
                                 </div>
                                 <div class="form-group">
                                     <?= Form::label('course_times', 'เวลาที่คาดว่าจะใช้ในบทเรียน (ชั่วโมง)') ?>
-                                    <?= Form::number('course_times', null, ['class' => 'form-control w-25', 'placeholder' => 'เวลาที่คาดว่าจะใช้ในบทเรียน (ชั่วโมง)']) ?>
+                                    <?= Form::number('course_times', null, ['class' => 'form-control w-25', 'placeholder' => 'เวลาที่คาดว่าจะใช้ในบทเรียน (ชั่วโมง)', 'required']) ?>
+                                </div>
+                                <div class="form-group">
+                                    <?= Form::label('courses_passed', 'เกณฑ์ผ่านคอร์ส (0-100%)') ?>
+                                    <?= Form::number('courses_passed', null, ['class' => 'form-control w-25', 'placeholder' => 'เกณฑ์ผ่านคอร์ส %', 'min="1" max="100"', 'required']) ?>
                                 </div>
                                 <div class="form-group">
                                     <?= Form::label('course_videos', 'Link วิดีโอแนะนำคอร์ส') ?>
-                                    <?= Form::text('course_videos', null, ['class' => 'form-control', 'placeholder' => 'วิดีโอแนะนำคอร์ส']) ?>
+                                    <?= Form::text('course_videos', null, ['class' => 'form-control', 'placeholder' => 'วิดีโอแนะนำคอร์ส', 'required']) ?>
                                 </div>
 
                                 <div class="form-group">
@@ -96,7 +100,7 @@
                 <div class="card mt-3">
                     <div class="card-header h3 text-dark">
                         <div class="row">
-                            <div class="col-8">แสดงข้อมูลคอร์สเรียน จํานวนทั้งหมด {{ $courses->total() }}
+                            <div class="col-8">แสดงข้อมูลคอร์สเรียน จํานวนทั้งหมด {{ $courses->count() }}
                                 คอร์สเรียน
                             </div>
                         </div>
@@ -117,6 +121,11 @@
                             </thead>
                             <tbody>
                             <?php $i = 0; ?>
+                            <?php if($courses->count()==0){ ?>
+                                <tr>
+                                    <td colspan="8">ไม่มีคอร์สในตอนนี้</td>
+                                </tr>
+                           <?php }else{ ?>
                             @foreach ($courses as $course)
                                 <?php $i++; ?>
                                 <tr>
@@ -162,23 +171,23 @@
                                                         <?= Form::model($course, ['url' => 'coursemanage/' . $course->id, 'method' => 'put', 'files' => true]) ?>
                                                         <div class="form-group">
                                                             <?= Form::label('course_name', 'ชื่อคอร์ส') ?>
-                                                            <?= Form::text('course_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อคอร์ส']) ?>
+                                                            <?= Form::text('course_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อคอร์ส', 'required']) ?>
                                                         </div>
                                                         <div class="form-group">
                                                             <?= Form::label('course_detail', 'รายละเอียดคอร์ส') ?>
-                                                            <?= Form::textarea('course_detail', null, ['class' => 'form-control', 'placeholder' => 'รายละเอียดคอร์ส', 'rows' => '5']) ?>
+                                                            <?= Form::textarea('course_detail', null, ['class' => 'form-control', 'placeholder' => 'รายละเอียดคอร์ส', 'rows' => '5', 'required']) ?>
                                                         </div>
                                                         <div class="form-group">
                                                             <?= Form::label('course_will_learn', 'สิ่งที่จะได้เรียนรู้') ?>
-                                                            <?= Form::textarea('course_will_learn', null, ['class' => 'form-control', 'placeholder' => 'สิ่งที่จะได้เรียนรู้', 'rows' => '5']) ?>
+                                                            <?= Form::textarea('course_will_learn', null, ['class' => 'form-control', 'placeholder' => 'สิ่งที่จะได้เรียนรู้', 'rows' => '5', 'required']) ?>
                                                         </div>
                                                         <div class="form-group">
                                                             <?= Form::label('course_objective', 'วัตถุประสงค์') ?>
-                                                            <?= Form::textarea('course_objective', null, ['class' => 'form-control', 'placeholder' => 'วัตถุประสงค์', 'rows' => '5']) ?>
+                                                            <?= Form::textarea('course_objective', null, ['class' => 'form-control', 'placeholder' => 'วัตถุประสงค์', 'rows' => '5', 'required']) ?>
                                                         </div>
                                                         <div class="form-group">
                                                             {!! Form::label('course_type_id', 'หมวดหมู่คอร์ส') !!}
-                                                            <?= Form::select('course_type_id', App\Courses_type::all()->pluck('courses_type_name', 'id'), null, ['class' => 'form-control', 'placeholder' => 'เลือกหมวดคอร์ส']) ?>
+                                                            <?= Form::select('course_type_id', App\Courses_type::all()->pluck('courses_type_name', 'id'), null, ['class' => 'form-control', 'placeholder' => 'เลือกหมวดคอร์ส', 'required']) ?>
                                                         </div>
                                                         <?php
                                                         $c1 = '';
@@ -231,11 +240,15 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <?= Form::label('course_times', 'เวลาที่คาดว่าจะใช้ในบทเรียน (ชั่วโมง)') ?>
-                                                            <?= Form::number('course_times', null, ['class' => 'form-control w-25', 'placeholder' => 'ชื่อคอร์ส']) ?>
+                                                            <?= Form::number('course_times', null, ['class' => 'form-control w-25', 'placeholder' => 'ชื่อคอร์ส', 'required']) ?>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <?= Form::label('courses_passed', 'เกณฑ์ผ่านคอร์ส (0-100%)') ?>
+                                                            <?= Form::number('courses_passed', null, ['class' => 'form-control w-25', 'placeholder' => 'เกณฑ์ผ่านคอร์ส %', 'min="1" max="100"', 'required']) ?>
                                                         </div>
                                                         <div class="form-group">
                                                             <?= Form::label('course_videos', 'Link วิดีโอแนะนำคอร์ส') ?>
-                                                            <?= Form::text('course_videos', null, ['class' => 'form-control', 'placeholder' => 'วิดีโอแนะนำคอร์ส']) ?>
+                                                            <?= Form::text('course_videos', null, ['class' => 'form-control', 'placeholder' => 'วิดีโอแนะนำคอร์ส', 'required']) ?>
                                                         </div>
                                                         <div>
                                                             <p><b>รูปภาพปกคอร์ส</b></p>
@@ -297,10 +310,11 @@
                                     </td>
                                 </tr>
                             @endforeach
+                            <?php } ?>
                         </tbody>
                         </table>
                         <br>
-                        {{-- {{ $courses->links() }} --}}
+
                     </div>
                 </div>
             </div>

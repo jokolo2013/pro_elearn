@@ -7,6 +7,7 @@ use App\Pretest;
 use App\Pretest_answer;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CoursePretestManageController extends Controller
@@ -16,8 +17,15 @@ class CoursePretestManageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         return redirect()->back();
     }
 
@@ -78,6 +86,9 @@ class CoursePretestManageController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         $cname = Courses::where('id',"LIKE",$id)->first();
         $crid = $id;
         $pretest = Pretest::where('courses_id','=',$id)->get();

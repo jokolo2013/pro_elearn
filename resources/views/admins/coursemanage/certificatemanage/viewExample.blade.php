@@ -43,6 +43,7 @@
         }
 
     </style>
+    <title>{{ $certificate_setting->description }}</title>
 </head>
 
 <body>

@@ -43,10 +43,7 @@
                                     <?= Form::label('posttest_question', 'โจทย์') ?>
                                     <?= Form::text('posttest_question', null, ['class' => 'form-control', 'placeholder' => 'โจทย์', 'required']) ?>
                                 </div>
-                                {{-- <div class="form-group">
-                                    {!! Form::label('course_images', 'เพิ่มรูปภาพ') !!}
-                                    <?= Form::file('course_images', null, ['class' => 'form-control']) ?>
-                                </div> --}}
+                                
                                 <hr>
                                 <div class="form-group form-inline">
                                     <?= Form::label('posttest_answer1', 'คำตอบที่ 1') ?>

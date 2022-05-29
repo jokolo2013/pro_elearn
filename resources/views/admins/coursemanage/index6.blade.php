@@ -6,12 +6,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">จัดการแบบทดสอบ</h1>
+                    <h1 class="m-0">ผลการตอบคำถาม</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="{{url('admins/')}}">Home</a></li>
-                        <li class="breadcrumb-item active">จัดการแบบทดสอบ</li>
+                        <li class="breadcrumb-item active">ผลการตอบคำถาม</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -43,8 +43,8 @@
                                 <th>หมวดคอร์ส</th>
                                 <th>ผู้สร้างคอร์ส</th>
                                 <th>สถานะการเผยแพร่</th>
-                                <th>จัดการแบบทดสอบก่อนเรียน</th>
-                                <th>จัดการแบบทดสอบหลังเรียน</th>
+                                <th>ผลแบบทดสอบก่อนเรียน</th>
+                                <th>ผลแบบทดสอบหลังเรียน</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -76,10 +76,10 @@
                                         <?php if($course->publish == 1) echo '<i class="fas fa-circle" style="color:green"></i> เผยแพร่แล้ว' ;?>
                                     </td>
                                     <td>
-                                        <a class="btn btn-dark" href="CoursePretestManage/<?=$course->id?>/edit" role="button"><i class="fas fa-edit"></i> แบบทดสอบก่อนเรียน</a>
+                                        <a class="btn btn-dark" href="ResultPretest/<?=$course->id?>/edit" role="button"><i class="fas fa-edit"></i> ดูผลการตอบ</a>
                                     </td>
                                     <td>
-                                        <a  class="btn btn-secondary" href="CoursePosttestManage/<?=$course->id?>/edit"><i class="fas fa-edit"></i> แบบทดสอบหลังเรียน</a>
+                                        <a  class="btn btn-secondary" href="ResultPosttest/<?=$course->id?>/edit"><i class="fas fa-edit"></i> ดูผลการตอบ</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -27,7 +27,7 @@
                 <div class="card mt-3">
                     <div class="card-header h3 text-dark">
                         <div class="row">
-                            <div class="col-8">แสดงข้อมูลคอร์สเรียน จํานวนทั้งหมด {{ $courses->total() }}
+                            <div class="col-8">แสดงข้อมูลคอร์สเรียน จํานวนทั้งหมด {{ $courses->count() }}
                                 คอร์สเรียน
                             </div>
                         </div>

@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('generate', function (){
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    echo 'ok';
+});
+
+Route::get('/clear-cache', function() {
+$exitCode = Artisan::call('config:clear');
+$exitCode = Artisan::call('cache:clear');
+$exitCode = Artisan::call('config:cache');
+return 'DONE'; //Return anything
+});
 
 Route::get('/','SiteController@index')->name('index');
 Route::get('/index','SiteController@index')->name('index');
@@ -25,18 +37,25 @@ Route::post('courses-page/sendPosttest','SiteController@sendPosttest')->name('co
 
 Auth::routes();
 Route::resource('profile','ProfileController')->name('index','profile');
-
 Route::resource('register_courses','Register_coursesController')->name('index','register_courses');
 Route::get('Viewcertificate/',function(){ return redirect()->back();});
 Route::get('Viewcertificate/{id}','Register_coursesController@Viewcertificate')->name('index','Viewcertificate');
 
 Route::resource('editusers','AdminsUsersController')->name('index','editusers');
 
+Route::resource('managetypecourses','TypecourseManageController')->name('index','managetypecourses');
+
+Route::resource('certificatebackground','CertificateBgController')->name('index','certificatebackground');
 
 Route::resource('coursemanage','CoursemanageController')->name('index','coursemanage');
 Route::get('coursemanageLesson','CoursemanageController@coursemanageLesson')->name('index','coursemanageLesson');
 Route::get('coursemanageRegister','CoursemanageController@coursemanageRegister')->name('index','coursemanageRegister');
 Route::get('coursemanageTest','CoursemanageController@coursemanageTest')->name('index','coursemanageTest');
+
+
+Route::get('Resultpreposttest','CoursemanageController@Resultpreposttest')->name('index','Resultpreposttest');
+Route::resource('ResultPretest','ResultPretestController')->name('index','ResultPretest');
+Route::resource('ResultPosttest','ResultPosttestController')->name('index','ResultPosttest');
 
 Route::get('CourseCertificate','CoursemanageController@CourseCertificate')->name('index','CourseCertificate');
 Route::get('CourseCertificateManageView/{id}','CoursemanageController@CourseCertificateManageView')->name('index','CourseCertificateManageView');

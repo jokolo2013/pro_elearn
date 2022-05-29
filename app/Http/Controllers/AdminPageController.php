@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Courses;
 use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
@@ -22,10 +23,20 @@ class AdminPageController extends Controller
 
     public function index()
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         $userlogin = Auth::user();
         $users = User::find($userlogin->id);
         $profile = Profile::find($userlogin->id_role);
-        return view('admins.index', ['users' => $users, 'profile' => $profile]);
+        if(Auth::user()->id_role == 1){
+            $alluser = User::all();
+            $courses = Courses::where('id_users','=',Auth::user()->id);
+        }else{
+        $alluser = User::all();
+        $courses = Courses::all();
+        }
+        return view('admins.index', ['users' => $users, 'profile' => $profile, 'alluser' =>  $alluser, 'courses' => $courses]);
     }
 
     /**

@@ -23,13 +23,21 @@
 
 
     <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> --}}
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/lity.min.css') }}" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
+
+    </style>
     @yield('style')
 </head>
 
@@ -78,16 +86,19 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 
-                                    <a class="dropdown-item" href="{{ url('profile/') }}">
+                                    <a class="dropdown-item" href="{{ route('profile') }}">
                                         โปรไฟล์
                                     </a>
 
+                                    <?php if(Auth::user()->id_role == 0 || Auth::user()->id_role == 1){ ?>
                                     <a class="dropdown-item" href="{{ url('admins') }}">
                                         เข้าสู่หน้าผู้ดูแลระบบ
                                     </a>
+                                    <?php } ?>
 
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                                                         document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                        onclick="event.preventDefault();
+                                                                                 document.getElementById('logout-form').submit();">
                                         ออกจากระบบ
                                     </a>
 

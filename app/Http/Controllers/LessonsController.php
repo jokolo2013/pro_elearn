@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Courses;
 use App\Lessons;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class LessonsController extends Controller
@@ -14,8 +15,15 @@ class LessonsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index($id)
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         return $id;
     }
 
@@ -42,7 +50,7 @@ class LessonsController extends Controller
         $lessons->lesson_sort = $request->lesson_sort;
         $lessons->lesson_name = $request->lesson_name;
         $lessons->save();
-        return redirect()->back();
+        return redirect("lessonsmanage/$request->id_course/edit")->with('status', 'สร้างบทเรียนสำเร็จ');
     }
 
     /**
@@ -64,7 +72,9 @@ class LessonsController extends Controller
      */
     public function edit($id)
     {
-
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         $lessons = DB::table('courses')
         ->join('lessons', 'courses.id', '=', 'lessons.id_course')
         ->where('lessons.id_course', '=', $id)
@@ -89,7 +99,7 @@ class LessonsController extends Controller
         $lessons->lesson_sort = $request->lesson_sort;
         $lessons->lesson_name = $request->lesson_name;
         $lessons->save();
-        return redirect()->back();
+        return redirect("lessonsmanage/$request->id_course/edit")->with('status', 'อัพเดทบทเรียนสำเร็จ');
     }
 
     /**
@@ -98,10 +108,10 @@ class LessonsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $lessons = Lessons::find($id);
         $lessons -> delete();
-        return redirect()->back();
+        return redirect("lessonsmanage/$request->id_course/edit")->with('status', 'ลบบทเรียนสำเร็จ');
     }
 }

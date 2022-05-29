@@ -94,14 +94,30 @@ class ProfileController extends Controller
         $user->email = $request->email;
         $user->tel = $request->tel;
 
-        $password_old = Hash::make($request->password_old);
-        if (!empty($request->password_old)) {
-            if (!($user->password == $password_old)) {
-                return redirect()->action('ProfileController@index')->with('status', "รหัสไม่ตรงกัน $password_old");
-            } else {
-                return redirect()->action('ProfileController@index')->with('status', "รหัสตรงกัน $password_old");
+        if($request->password_old != Null){
+            if($request->password == $request->password_new){
+                $hashedPassword = Auth::user()->password;
+                if (\Hash::check($request->password_old , $hashedPassword )) {
+
+                    if (!\Hash::check($request->password_new , $hashedPassword)) {
+
+                         $users =User::find(Auth::user()->id);
+                         $users->password = bcrypt($request->password_new);
+                         User::where( 'id' , Auth::user()->id)->update( array( 'password' =>  $users->password));
+                         return redirect('profile')->with('status', 'อัพเดทรหัสผ่านสำเร็จ');
+                       }
+                       else{
+                             return redirect('profile')->with('error', 'รหัสผ่านใหม่ และ รหัสผ่านเก่า เหมือนกัน');
+                           }
+                      }
+                     else{
+                          return redirect('profile')->with('error', 'รหัสผ่านเก่าไม่ถูกต้อง');
+                        }
+
+                  }else{
+                    return redirect('profile')->with('error', 'รหัสผ่านใหม่ไม่ตรงกัน');
+                }
             }
-        }
         if ($request->hasFile('image')) {
             // delete old file before update
             if ($user->pic_profile != 'nopic.jpg') {

@@ -6,6 +6,7 @@ use App\Courses;
 use App\Pretest;
 use App\Pretest_answer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnsManageController extends Controller
 {
@@ -14,8 +15,15 @@ class AnsManageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         return redirect()->back();
     }
 
@@ -59,6 +67,9 @@ class AnsManageController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         $pretest = Pretest::where('id', '=', $id)->first();
         $courses = Courses::where('id', '=', $pretest->courses_id)->first();
         $answer = Pretest_answer::where('question_id', '=', $id)->get();
@@ -74,7 +85,6 @@ class AnsManageController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $pretest = Pretest::find($id);
         $pretest->pretest_question = $request->pretest_question;
 

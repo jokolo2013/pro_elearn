@@ -1,5 +1,19 @@
 @extends('layouts.app')
 @section('content')
+    <?php
+    function DateThai($strDate)
+    {
+        $strYear = date('Y', strtotime($strDate)) + 543;
+        $strMonth = date('n', strtotime($strDate));
+        $strDay = date('j', strtotime($strDate));
+        $strHour = date('H', strtotime($strDate));
+        $strMinute = date('i', strtotime($strDate));
+        $strSeconds = date('s', strtotime($strDate));
+        $strMonthCut = ['', 'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
+        $strMonthThai = $strMonthCut[$strMonth];
+        return "$strDay $strMonthThai $strYear $strHour:$strMinute:$strSeconds";
+    }
+    ?>
     <div class="container">
         <div class="row">
             <div class="col-lg-4 mt-5 ml-5">
@@ -22,7 +36,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>ชื่อคอร์สเรียน</th>
-                                    <th>ลงทะเบียนเมื่อ (ปี-เดือน-วัน)</th>
+                                    <th>ลงทะเบียนเมื่อ</th>
                                     <th>คะแนนแบบทดสอบก่อนเรียนที่มากสุด</th>
                                     <th>จำนวนครั้งที่ทำแบบทดสอบก่อนเรียน</th>
                                     <th>คะแนนแบบทดสอบหลังเรียนที่มากสุด</th>
@@ -40,19 +54,24 @@
                                     <tr>
                                         <td>{{ $i }}</td>
                                         <td>{{ $regisc->course_name }}</td>
-                                        <td>{{ $regisc->created_at }}</td>
+                                        <td>{{ DateThai($regisc->created_at) }}</td>
                                         <td>
-                                            {{ $regisc->pretest_score }}
+                                            {{ $regisc->pretest_score }} /
+                                            {{ $pretestQmax[$regisc->id_course]['count'] }}
                                         </td>
                                         <td>{{ $regisc->pretest_count }}</td>
-                                        <td>{{ $regisc->posttest_score }} </td>
+                                        <td>{{ $regisc->posttest_score }} /
+                                            {{ $posttestQmax[$regisc->id_course]['count'] }} </td>
                                         <td>{{ $regisc->posttest_count }}</td>
                                         <td>
-                                            @foreach ($certificate as $certi)
-                                                <?php if ($certi->courses_id == $regisc->id_course && $certi->user_id == Auth::user()->id){ ?>
-                                                    <a class="btn btn-success" href="Viewcertificate/<?=$certi->id?>" target="_blank" role="button">ดูเกียรติบัตร</a>
-                                                    <?php } ?>
-                                            @endforeach
+                                            <?php if($certificate[$regisc->id_course]["certificate"] == NULL){ ?>
+                                                <a class="btn btn-danger" href="#" role="button">
+                                                    <i class="fas fa-window-close"></i> ไม่มีเกียรติบัตร </a>
+                                            <?php }else{ ?>
+                                                <a class="btn btn-success" href="Viewcertificate/<?= $certificate[$regisc->id_course]["certificate"]->id ?>"
+                                                target="_blank" role="button"> <i class="fas fa-print"></i>
+                                                พิมพ์เกียรติบัตร</a>
+                                            <?php } ?>
                                         </td>
                                         <td>
                                             <!-- Button trigger modal -->

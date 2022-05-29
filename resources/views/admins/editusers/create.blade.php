@@ -77,7 +77,7 @@
                         <br>
 
                         <div class="form-group">
-                            {!! Form::label('image', 'แก้ไขรูปภาพ') !!}
+                            {!! Form::label('image', 'รูปภาพ') !!}
                             <?= Form::file('image', null, ['class' => 'form-control']) ?>
                         </div>
 

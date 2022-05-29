@@ -41,10 +41,11 @@
                 <li class="nav-item">
                     <a href="{{ url('/admins') }}"
                         class="nav-link <?= Request::segment(1) == 'admins' || Request::segment(1) == '' ? 'active' : '' ?>">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Dashboard</p>
+                        <i class="fas fa-home"></i>
+                        <p>หน้าแรก</p>
                     </a>
                 </li>
+                <?php if(Auth::user()->id_role == 0) { ?>
                 <li class="nav-item">
                     <a href="{{ route('editusers') }}"
                         class="nav-link <?= Request::segment(1) == 'editusers' || Request::segment(1) == '' ? 'active' : '' ?>">
@@ -53,7 +54,23 @@
                     </a>
                 </li>
 
-                <li class="nav-item menu-open">
+                <li class="nav-item">
+                    <a href="{{ route('managetypecourses') }}"
+                        class="nav-link <?= Request::segment(1) == 'managetypecourses' || Request::segment(1) == '' ? 'active' : '' ?>">
+                        <i class="fas fa-list"></i>
+                        <p>จัดการประเภทบทเรียน</p>
+                    </a>
+                </li>
+                <?php } ?>
+                <li class="nav-item">
+                    <a href="{{ route('certificatebackground') }}"
+                        class="nav-link <?= Request::segment(1) == 'certificatebackground' || Request::segment(1) == '' ? 'active' : '' ?>">
+                        <i class="fas fa-image"></i>
+                        <p>จัดการพื้นหลังเกียรติบัตร</p>
+                    </a>
+                </li>
+
+                <li class="nav-item has-treeview menu-open">
                     <a href="#" class="nav-link
                     <?= Request::segment(1) == 'Register_coursesManage' || Request::segment(1) == '' ? 'active' : '' ?>
                     <?= Request::segment(1) == 'coursemanageRegister' || Request::segment(1) == '' ? 'active' : '' ?>
@@ -64,10 +81,12 @@
                     <?= Request::segment(1) == 'coursemanageTest' || Request::segment(1) == '' ? 'active' : '' ?>
                     <?= Request::segment(1) == 'CoursePretestManage' || Request::segment(1) == '' ? 'active' : '' ?>
                     <?= Request::segment(1) == 'CoursePosttestManage' || Request::segment(1) == '' ? 'active' : '' ?>
+                    <?= Request::segment(1) == 'Resultpreposttest' || Request::segment(1) == '' ? 'active' : '' ?>
                     <?= Request::segment(1) == 'CourseCertificate' || Request::segment(1) == '' ? 'active' : '' ?>
+                    <?= Request::segment(1) == 'ResultPretest' || Request::segment(1) == '' ? 'active' : '' ?>
                     ">
 
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="fas fa-folder"></i>
                         <p>
                             จัดการคอร์สเรียน
                             <i class="right fas fa-angle-left"></i>
@@ -110,6 +129,15 @@
                             ">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>จัดการข้อสอบ</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{url('Resultpreposttest')}}" class="nav-link
+                            <?= Request::segment(1) == 'Resultpreposttest' || Request::segment(1) == '' ? 'active' : '' ?>
+                            <?= Request::segment(1) == 'ResultPretest' || Request::segment(1) == '' ? 'active' : '' ?>
+                            ">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>ผลการตอบคำถาม</p>
                             </a>
                         </li>
                         <li class="nav-item">

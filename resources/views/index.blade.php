@@ -73,7 +73,6 @@
     </div>
 @endsection
 @section('footer')
-
     <script>
         $('#recipeCarousel').carousel({
             interval: 5000
@@ -99,8 +98,18 @@
     </script>
 
     @if (session()->has('sendpretest'))
+        <script>
+            swal("<?php echo session()->get('sendpretest'); ?>", "", "success");
+        </script>
+    @endif
+    @if (session()->has('success'))
     <script>
-        swal("<?php echo session()->get('sendpretest'); ?>", "", "success");
+        swal("<?php echo session()->get('success'); ?>", "", "success");
+    </script>
+@endif
+    @if (session()->has('error'))
+    <script>
+        swal("<?php echo session()->get('error'); ?>", "", "error");
     </script>
 @endif
 @endsection

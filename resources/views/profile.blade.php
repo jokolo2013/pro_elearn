@@ -106,7 +106,7 @@
                     <div class="row">
                         <div class="form-group w-100">
                             <?= Form::submit('บันทึก', ['class' => 'btn btn-primary w-100']) ?>
-                            <a href="{{ Route('index') }}" type="button" class="btn btn-danger w-100 mt-2">ยกเลิก</a>
+                            <a href="{{ url('index') }}" type="button" class="btn btn-danger w-100 mt-2">ยกเลิก</a>
                         </div>
                     </div>
 
@@ -146,4 +146,9 @@
             swal("<?php echo session()->get('status'); ?>", "", "success");
         </script>
     @endif
+    @if (session()->has('error'))
+    <script>
+        swal("<?php echo session()->get('error'); ?>", "", "error");
+    </script>
+@endif
 @endsection

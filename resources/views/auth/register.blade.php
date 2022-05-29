@@ -5,12 +5,13 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header text-white bg-orange">{{ __('Register') }}</div>
-
                     <div class="card-body">
                         <form method="POST" action="{{ route('register') }}">
                             @csrf
-
+                            <div class="form-group row justify-content-center">
+                                <h1>สมัครสมาชิกเว็บไซต์ Pro-Elearn</h1>
+                                <img src="{{ asset('images/img-01.png') }}" class="rounded ">
+                            </div>
                             <div class="form-group row">
                                 <label for="Fname" class="col-md-4 col-form-label text-md-right">ชื่อ</label>
 
@@ -117,8 +118,8 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary text-white bg-orange">
-                                        {{ __('Register') }}
+                                    <button type="submit" class="btn btn-primary text-white bg-orange w-100">
+                                        {{ __('สมัครสมาชิก') }}
                                     </button>
                                 </div>
                             </div>

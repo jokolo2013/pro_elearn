@@ -46,11 +46,11 @@
                                             <?= Form::open(['url' => 'lessonsmanage/', 'files' => false]) ?>
                                             <div class="form-group">
                                                 <?= Form::label('lesson_sort', 'ลำดับบทเรียน') ?>
-                                                <?= Form::number('lesson_sort', null, ['class' => 'form-control', 'placeholder' => 'ลำดับบทเรียน']) ?>
+                                                <?= Form::number('lesson_sort', null, ['class' => 'form-control', 'placeholder' => 'ลำดับบทเรียน' ,'required']) ?>
                                             </div>
                                             <div class="form-group">
                                                 <?= Form::label('lesson_name', 'ชื่อบทเรียน') ?>
-                                                <?= Form::text('lesson_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อบทเรียน', 'rows' => '5']) ?>
+                                                <?= Form::text('lesson_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อบทเรียน', 'rows' => '5' ,'required' ]) ?>
                                             </div>
                                             <input type="hidden" id="id_course" name="id_course" value="{{$id}}">
                                         </div>
@@ -112,12 +112,13 @@
                                                                         <?= Form::model($les, ['url' => 'lessonsmanage/' . $les->id, 'method' => 'put', 'files' => false]) ?>
                                                                         <div class="form-group">
                                                                             <?= Form::label('lesson_sort', 'ลำดับบทเรียน') ?>
-                                                                            <?= Form::number('lesson_sort', null, ['class' => 'form-control', 'placeholder' => 'ลำดับบทเรียน']) ?>
+                                                                            <?= Form::number('lesson_sort', null, ['class' => 'form-control', 'placeholder' => 'ลำดับบทเรียน','required']) ?>
                                                                         </div>
                                                                         <div class="form-group">
                                                                             <?= Form::label('lesson_name', 'ชื่อบทเรียน') ?>
-                                                                            <?= Form::text('lesson_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อบทเรียน', 'rows' => '5']) ?>
+                                                                            <?= Form::text('lesson_name', null, ['class' => 'form-control', 'placeholder' => 'ชื่อบทเรียน', 'rows' => '5' ,'required']) ?>
                                                                         </div>
+                                                                        <input type="hidden" id="id_course" name="id_course" value="{{$id}}">
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-secondary"
@@ -158,6 +159,7 @@
                                                                         <button type="button" class="btn btn-secondary"
                                                                             data-dismiss="modal">ยกเลิก</button>
                                                                         <?= Form::open(['url' => 'lessonsmanage/' . $les->id, 'method' => 'delete']) ?>
+                                                                        <input type="hidden" id="id_course" name="id_course" value="{{$id}}">
                                                                         <button type="submit"
                                                                             class="btn btn-danger">ลบ</button>
                                                                         {!! Form::close() !!}

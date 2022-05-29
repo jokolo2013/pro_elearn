@@ -6,6 +6,7 @@ use File;
 use PDF;
 
 use App\AdminsUsers;
+use App\Certificate;
 use App\Certificate_setting;
 use App\Certificate_template;
 use App\Courses;
@@ -26,8 +27,21 @@ class CoursemanageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
+        if (Auth::user()->id_role == 2) {
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        if (Auth::user()->id_role == 1) {
+            $courseUser = null;
+            $courses = Courses::where('id_users','=',Auth::user()->id)->orderBy('id', 'desc')->get();
+            $userProfile = DB::table('users')->where('id','=',Auth::user()->id)->select('id', 'Fname', 'Lname')->get();
+            return view('admins/coursemanage/index', ['courses' => $courses, 'userProfile' => $userProfile]);
+        }
         $courseUser = null;
         $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
         $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
@@ -36,6 +50,15 @@ class CoursemanageController extends Controller
 
     public function coursemanageLesson()
     {
+        if (Auth::user()->id_role == 2) {
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        if (Auth::user()->id_role == 1) {
+            $courseUser = null;
+            $courses = Courses::where('id_users','=',Auth::user()->id)->orderBy('id', 'desc')->get();
+            $userProfile = DB::table('users')->where('id','=',Auth::user()->id)->select('id', 'Fname', 'Lname')->get();
+            return view('admins/coursemanage/index2', ['courses' => $courses, 'userProfile' => $userProfile]);
+        }
         $courseUser = null;
         $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
         $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
@@ -44,6 +67,15 @@ class CoursemanageController extends Controller
 
     public function coursemanageRegister()
     {
+        if (Auth::user()->id_role == 2) {
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        if (Auth::user()->id_role == 1) {
+            $courseUser = null;
+            $courses = Courses::where('id_users','=',Auth::user()->id)->orderBy('id', 'desc')->get();
+            $userProfile = DB::table('users')->where('id','=',Auth::user()->id)->select('id', 'Fname', 'Lname')->get();
+            return view('admins/coursemanage/index3', ['courses' => $courses, 'userProfile' => $userProfile]);
+        }
         $courseUser = null;
         $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
         $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
@@ -52,6 +84,15 @@ class CoursemanageController extends Controller
 
     public function coursemanageTest()
     {
+        if (Auth::user()->id_role == 2) {
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        if (Auth::user()->id_role == 1) {
+            $courseUser = null;
+            $courses = Courses::where('id_users','=',Auth::user()->id)->orderBy('id', 'desc')->get();
+            $userProfile = DB::table('users')->where('id','=',Auth::user()->id)->select('id', 'Fname', 'Lname')->get();
+            return view('admins/coursemanage/index4', ['courses' => $courses, 'userProfile' => $userProfile]);
+        }
         $courseUser = null;
         $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
         $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
@@ -60,19 +101,50 @@ class CoursemanageController extends Controller
 
     public function CourseCertificate()
     {
+        if (Auth::user()->id_role == 2) {
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        if (Auth::user()->id_role == 1) {
+            $courseUser = null;
+            $courses = Courses::where('id_users','=',Auth::user()->id)->orderBy('id', 'desc')->get();
+            $userProfile = DB::table('users')->where('id','=',Auth::user()->id)->select('id', 'Fname', 'Lname')->get();
+            return view('admins/coursemanage/index5', ['courses' => $courses, 'userProfile' => $userProfile]);
+        }
         $courseUser = null;
         $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
         $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
         return view('admins/coursemanage/index5', ['courses' => $courses, 'userProfile' => $userProfile]);
     }
 
+    public function Resultpreposttest()
+    {
+        if (Auth::user()->id_role == 2) {
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        if (Auth::user()->id_role == 1) {
+            $courseUser = null;
+            $courses = Courses::where('id_users','=',Auth::user()->id)->orderBy('id', 'desc')->get();
+            $userProfile = DB::table('users')->where('id','=',Auth::user()->id)->select('id', 'Fname', 'Lname')->get();
+            return view('admins/coursemanage/index6', ['courses' => $courses, 'userProfile' => $userProfile]);
+        }
+        $courseUser = null;
+        $courses = Courses::with('AdminsUsers')->orderBy('id', 'desc')->paginate(7);
+        $userProfile = AdminsUsers::select('id', 'Fname', 'Lname')->get();
+        return view('admins/coursemanage/index6', ['courses' => $courses, 'userProfile' => $userProfile]);
+    }
+
     public function CourseCertificateManageView($id)
     {
-        $certificate_setting = Certificate_setting::where('courses_id','=',$id)->first();
-        $certificate_template = Certificate_template::where('id','=',$certificate_setting->certificate_template_id)->first();
-        $pdf = PDF::loadView('admins.coursemanage.certificatemanage.viewExample',['certificate_setting' => $certificate_setting,'certificate_template'=>$certificate_template])->setPaper('a4', 'landscape');
+        if (Auth::user()->id_role == 2) {
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
+        $certificate_setting = Certificate_setting::where('courses_id', '=', $id)->first();
+        $certificate_template = Certificate_template::where('id', '=', $certificate_setting->certificate_template_id)->first();
+        $pdf = PDF::loadView('admins.coursemanage.certificatemanage.viewExample', ['certificate_setting' => $certificate_setting, 'certificate_template' => $certificate_template])->setPaper('a4', 'landscape');
         return $pdf->stream();
     }
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -102,6 +174,7 @@ class CoursemanageController extends Controller
         $course->course_detail = $request->course_detail;
         $course->course_difficulty = $request->course_difficulty;
         $course->course_times = $request->course_times;
+        $course->courses_passed = $request->courses_passed;
         $course->course_will_learn = $request->course_will_learn;
         $course->course_objective = $request->course_objective;
 
@@ -114,6 +187,13 @@ class CoursemanageController extends Controller
             $course->course_images = 'nopic.jpg';
         }
         $course->save();
+
+        $certificate_setting = new Certificate_setting();
+        $certificate_setting->courses_id = $course->id;
+        $certificate_setting->certificate_template_id = 1;
+        $certificate_setting->description = "ได้ผ่านการอบรมหลักสูตรออนไลน์ $course->course_name";
+        $certificate_setting->save();
+
         return redirect()->action('CoursemanageController@index')->with('status', 'สร้างคอร์สเรียนแล้ว');
     }
 
@@ -161,6 +241,7 @@ class CoursemanageController extends Controller
         $course->course_detail = $request->course_detail;
         $course->course_difficulty = $request->course_difficulty;
         $course->course_times = $request->course_times;
+        $course->courses_passed = $request->courses_passed;
         $course->course_will_learn = $request->course_will_learn;
         $course->course_objective = $request->course_objective;
 
@@ -177,7 +258,7 @@ class CoursemanageController extends Controller
             $course->course_images = $filename;
         }
         $course->save();
-        return redirect()->action('CoursemanageController@index')->with('status', 'บันทึกข้อมูลแล้ว');
+        return redirect()->action('CoursemanageController@index')->with('status', 'อัพเดทคอร์สเรียนสำเร็จ');
     }
 
     /**
@@ -193,16 +274,25 @@ class CoursemanageController extends Controller
         $lesson = DB::table('lessons')->where('id_course', '=', $id);
         $lesson_file = DB::table('lesson_files')->where('id_course', '=', $id);
         $lesson_video = DB::table('lesson_video')->where('id_course', '=', $id);
+        $lesson_link = DB::table('lesson_link')->where('id_course', '=', $id);
+        $regiscourse = DB::table('register_courses')->where('id_course','=', $id);
+        $certificate = Certificate::where("courses_id","=",$id);
+        $certificate_setting = DB::table('certificate_setting')->where('courses_id', '=', $id);
 
         if ($courses->course_images != null) {
-            File::delete(public_path() . '\\images\\course\\cover\\' . $courses->course_images);
+            if($courses->course_images != 'nopic.jpg'){
+                File::delete(public_path() . '\\images\\course\\cover\\' . $courses->course_images);
+            }
         }
-
+        $certificate_setting->delete();
+        $certificate->delete();
         $lesson_file->delete();
         $lesson_video->delete();
+        $lesson_link->delete();
+        $regiscourse->delete();
         $lesson->delete();
         $courses->delete();
 
-        return redirect()->action('CoursemanageController@index');
+        return redirect("coursemanage")->with('status', 'ลบคอร์สเรียนสำเร็จ');
     }
 }

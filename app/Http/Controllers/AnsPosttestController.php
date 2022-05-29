@@ -6,6 +6,7 @@ use App\Courses;
 use App\Posttest;
 use App\Posttest_answer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AnsPosttestController extends Controller
 {
@@ -14,8 +15,15 @@ class AnsPosttestController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         return redirect()->back();
     }
 
@@ -59,6 +67,9 @@ class AnsPosttestController extends Controller
      */
     public function edit($id)
     {
+        if (Auth::user()->id_role == 2){
+            return redirect('index')->with('error', 'ไม่มีสิธิ์เข้าถึง');
+        }
         $posttest = Posttest::where('id', '=', $id)->first();
         $courses = Courses::where('id', '=', $posttest->courses_id)->first();
         $answer = Posttest_answer::where('question_id', '=', $id)->get();

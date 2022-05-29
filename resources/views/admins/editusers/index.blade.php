@@ -38,11 +38,8 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>รหัสสมาชิก</th>
                                 <th>ชื่อ</th>
                                 <th>นามสกุล</th>
-                                <th>เพศ</th>
-                                <th>เบอร์โทรศัพท์</th>
                                 <th>อีเมล</th>
                                 <th>สถานะ</th>
                                 <th>รูปโปรไฟล์</th>
@@ -56,21 +53,8 @@
                                 <?php $i++; ?>
                                 <tr>
                                     <td><?= $i ?></td>
-                                    <td>{{ $user->id }}</td>
                                     <td>{{ $user->Fname }}</td>
                                     <td>{{ $user->Lname }}</td>
-                                    <td>
-                                        @if ($user->Gender == 1)
-                                            ชาย
-                                        @endif
-                                        @if ($user->Gender == 2)
-                                            หญิง
-                                        @endif
-                                        @if ($user->Gender == 3)
-                                            อื่นๆ
-                                        @endif
-                                    </td>
-                                    <td>{{ $user->tel }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>
                                         {{ $user->profile->status_name }}

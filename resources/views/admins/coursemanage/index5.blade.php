@@ -28,7 +28,7 @@
                 <div class="card mt-3">
                     <div class="card-header h3 text-dark">
                         <div class="row">
-                            <div class="col-8">แสดงข้อมูลคอร์สเรียน จํานวนทั้งหมด {{ $courses->total() }}
+                            <div class="col-8">แสดงข้อมูลคอร์สเรียน จํานวนทั้งหมด {{ $courses->count() }}
                                 คอร์สเรียน
                             </div>
                         </div>
@@ -79,7 +79,7 @@
                                         <a class="btn btn-secondary" href="CourseCertificateManage/<?=$course->id?>/edit" role="button"><i class="fas fa-edit"></i> จัดการเกียรติบัตร</a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-dark" href="CourseCertificateManageView/<?=$course->id?>" role="button"><i class="fas fa-edit"></i> ดูตัวอย่างเกียรติบัตร</a>
+                                        <a class="btn btn-dark" href="CourseCertificateManageView/<?=$course->id?>" target="_blank" role="button"><i class="fas fa-edit"></i> ดูตัวอย่างเกียรติบัตร</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -100,5 +100,10 @@
         <script>
             swal("<?php echo session()->get('status'); ?>", "", "success");
         </script>
+    @endif
+    @if (session()->has('success'))
+    <script>
+        swal("<?php echo session()->get('success'); ?>", "", "success");
+    </script>
     @endif
 @endsection

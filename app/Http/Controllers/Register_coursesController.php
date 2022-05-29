@@ -6,6 +6,7 @@ use App\Certificate;
 use App\Certificate_setting;
 use App\Certificate_template;
 use App\Courses;
+use App\Posttest;
 use App\Pretest;
 use App\Register_courses;
 use App\User;
@@ -21,18 +22,32 @@ class Register_coursesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         // $register_course = Register_courses::where('id_users' , '=' , Auth::user()->id)->get();
-
+        $certificate = null;
+        $pretestQmax = null;
+        $posttestQmax =null;
         $register_course = DB::table('courses')
         ->join('register_courses', 'courses.id', '=', 'register_courses.id_course')
         ->where('register_courses.id_users', '=', Auth::user()->id)
+        ->orderByDesc('register_courses.created_at')
         ->get();
         $register_course_count = $register_course->count();
 
-        $certificate = Certificate::where('user_id','=',Auth::user()->id)->get();
-        return view('register-courses',['register_course' => $register_course, 'register_course_count' => $register_course_count, 'certificate' => $certificate]);
+        $resultmaxPretest = Pretest::all();
+        $resultmaxPosttest = Posttest::all();
+        foreach($register_course as $register){
+            $pretestQmax[$register->id_course] = ["count" => Pretest::where('courses_id','=',$register->id_course)->count(),"courses_id" => $register->id_course];
+            $posttestQmax[$register->id_course] = ["count" => Posttest::where('courses_id','=',$register->id_course)->count(),"courses_id" => $register->id_course];
+            $certificate[$register->id_course] = ["certificate" => Certificate::where('user_id','=',Auth::user()->id)->where('courses_id','=',$register->id_course)->first()];
+        }
+        // return $certificate;
+        return view('register-courses',['register_course' => $register_course, 'register_course_count' => $register_course_count, 'certificate' => $certificate,"pretestQmax" => $pretestQmax, 'posttestQmax' => $posttestQmax]);
     }
 
     public function Viewcertificate($id)
@@ -110,6 +125,8 @@ class Register_coursesController extends Controller
     public function destroy($id)
     {
         $register_course = Register_courses::find($id);
+        $certificate = Certificate::where("courses_id","=",$id)->where("user_id","=",Auth::user()->id);
+        $certificate-> delete();
         $register_course -> delete();
         return redirect("register_courses")->with('delete', "ยกเลิกการลงทะเบียนสำเร็จ");
     }

@@ -13,6 +13,10 @@ class Lessons extends Model
     {
         return $this->hasMany(Lesson_files::class); //กําหนด FK ด้วย
     }
+    public function Lesson_link()
+    {
+        return $this->hasMany(Lesson_link::class); //กําหนด FK ด้วย
+    }
     public function Lesson_video()
     {
         return $this->hasMany(Lesson_video::class); //กําหนด FK ด้วย
